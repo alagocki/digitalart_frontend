@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import api from "../api.js";
+import axios from "axios";
 
 
 
@@ -15,7 +15,7 @@ const AllImages = () => {
         useEffect(() => {
             const fetchImages = async () => {
                 try {
-                    const response = await api.get("/images/all");
+                    const response = await axios.get("/images/all");
                     if(response.status === 200) {
                         setImages(response.data.images);
                     } else {
