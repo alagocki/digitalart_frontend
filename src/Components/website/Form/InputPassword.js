@@ -6,8 +6,17 @@ class InputPassword extends React.Component {
         super(props);
         this.state = {
             inputid: props.id,
-            label: props.label
+            label: props.label,
+            valuePassword: '',
         };
+
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+
+    }
+
+    handleChangePassword = (event) => {
+        const password = event.target.value;
+        this.props.onChange(this.props.id, password);
     }
 
     render() {
@@ -22,7 +31,11 @@ class InputPassword extends React.Component {
                 <div className="md:w-2/3">
                     <input
                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id={this.state.inputid} type="password" value="" required/>
+                        id={this.state.inputid}
+                        type="password"
+                        value={this.props.value}
+                        onChange={this.handleChangePassword}
+                        required/>
                 </div>
             </div>
         );

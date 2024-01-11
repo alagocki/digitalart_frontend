@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import {url as api_url} from "../Constants";
-import {fetchToken, setToken} from "../Auth";
+import {fetchToken} from "../Auth";
 import axios from "axios";
 
 function errorHandler() {
@@ -11,7 +10,7 @@ export const setUser = async () => {
     const user = getUserFromApi();
 
     getUserFromApi()
-        .then(({ data }) => user)
+        .then(() => user)
         .then(data => localStorage.setItem('user', JSON.stringify(data)))// rest of script
         .catch(errorHandler);
 }
@@ -39,7 +38,6 @@ const getUserFromApi = async () => {
     try {
         // use data destructuring to get data from the promise object
         const {data: response} = await axios.get(url, options);
-        console.log(response);
         return response; // <- promise
     } catch (error) {
         // console.log(error);
@@ -50,8 +48,6 @@ const getUserFromApi = async () => {
 export const isSuperUser = () => {
     const user = getUser();
 
-    if (user.is_superuser === true) {
-        return true;
-    }
-    return false;
+    return user.is_superuser === true;
+
 }
