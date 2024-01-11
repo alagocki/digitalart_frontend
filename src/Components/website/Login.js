@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router";
-import {fetchToken, setToken} from "./Auth";
-import React, {useEffect, useState} from "react";
+import {setToken} from "./Auth";
+import React, {useState} from "react";
 import axios from "axios";
 import Header_Pic from './images/header_backend.png';
 import {url as api_url} from "../website/Constants";
@@ -15,10 +15,7 @@ const Login = () => {
 
     // check to see if the fields are not empty
     const get_token = async () => {
-        if ((username === "") && (password === "")) {
-            return;
-        } else {
-
+        if ((username !== "") && (password !== "")) {
             let url = api_url + 'login';
             let options = {
                 method: 'POST',
@@ -39,7 +36,7 @@ const Login = () => {
                     await setUser()
 
                     const timer = setTimeout(() => {
-                        console.log('This will run after 1 second!')
+                        // console.log('This will run after 1 second!')
                         navigate("/backend");
                     }, 1000);
                     return () => clearTimeout(timer);
@@ -59,7 +56,7 @@ const Login = () => {
 
         <div className="bg-white">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <a href="#" className="flex items-center mb-1 text-2xl font-semibold text-blue-950">
+                <a href="/" className="flex items-center mb-1 text-2xl font-semibold text-blue-950">
                     <img className="inset-0 object-cover object-center w-96"
                          src={Header_Pic}
                          alt="" loading=""/>
@@ -100,7 +97,7 @@ const Login = () => {
                                         {/*    me</label>*/}
                                     </div>
                                 </div>
-                                <a href="#"
+                                <a href="/"
                                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Password
                                     vergessen?</a>
                             </div>
@@ -110,7 +107,7 @@ const Login = () => {
                             >Anmelden
                             </button>
                             <p className="text-sm font-light text-gray-500">
-                                Don’t have an account yet? <a href="#"
+                                Don’t have an account yet? <a href="/register"
                                                               className="font-medium text-primary-600 hover:underline">Sign
                                 up</a>
                             </p>

@@ -7,6 +7,11 @@ class InputText extends React.Component {
         this.state = {
             label: props.label
         };
+
+    }
+
+    handleSubmit = (event) => {
+        this.props.onClick(event);
     }
 
     render() {
@@ -16,7 +21,8 @@ class InputText extends React.Component {
                 <div className="md:w-2/3">
                     <button
                         className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                        type="button">
+                        type="button"
+                        onClick={this.handleSubmit}>
                         {this.state.label}
                     </button>
                 </div>
