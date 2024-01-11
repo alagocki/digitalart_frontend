@@ -2,6 +2,7 @@ import React from "react";
 
 import BackendHeader from "../../website/backend/BackendHeader";
 import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
+import InputCheckbox from "../../website/Form/InputCheckbox";
 import InputEmail from "../../website/Form/InputEmail";
 import InputPassword from "../../website/Form/InputPassword";
 import Button from "../../website/Form/Button";
@@ -10,6 +11,7 @@ import {getUser} from "../../website/User/User";
 import {url as api_url} from "../../website/Constants";
 import {fetchToken} from "../../website/Auth";
 import axios from "axios";
+
 
 class BackendUserCreate extends React.Component {
 
@@ -20,15 +22,15 @@ class BackendUserCreate extends React.Component {
             token: '',
             valueEmail: '',
             valuePassword: '',
-            valueCustomerNo: '',
             info: '',
             error: false,
-            isCustomer: false
+            valueIsCustomer: false
         };
 
     }
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
+        console.log(inputFieldId + ' ' + inputFieldValue);
         this.setState({[inputFieldId]: inputFieldValue});
     }
 
@@ -39,7 +41,7 @@ class BackendUserCreate extends React.Component {
             const userData = {
                 email: this.state.valueEmail,
                 password: this.state.valuePassword,
-                customer: ('' !== this.state.valueCustomerNo) ? this.state.valueCustomerNo : null,
+                customer: (true === this.state.valueIsCustomer) ? 9999999 : null,
             };
 
             axios.post(url, userData)
@@ -49,7 +51,6 @@ class BackendUserCreate extends React.Component {
                             info: 'User ' + this.state.valueEmail + ' created',
                             valueEmail: '',
                             valuePassword: '',
-                            valueCustomerNo: '',
                             error: false
                         }
                     )
@@ -71,12 +72,17 @@ class BackendUserCreate extends React.Component {
                     {<BackendHeader/>}
                     {<SubnaviUserBackend/>}
 
-                    <h1 className="mb-4 mt-2 text-lg font-extrabold leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-4 mt-2 text-lg font-extrabold leading-none tracking-tight text-amber-900 md:text-2xl lg:text-3xl ">
                         {(this.state.error === true) ?
                             <div className="text-red-800">{this.state.info}</div> : this.state.info}
                     </h1>
                     <div className="flex justify-center">
                         <form className="w-4/5 mt-4 border-l border-b border-white p-4 rounded-b-lg shadow-xl">
+                            <InputCheckbox
+                                id="valueIsCustomer"
+                                label="Is Customer"
+                                onChange={this.handleFieldChange}
+                                value={this.state.isCustomer}/>
                             <InputEmail
                                 id="valueEmail"
                                 label="Email"
