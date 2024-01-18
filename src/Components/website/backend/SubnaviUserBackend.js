@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {getUser, removeUser} from "../User/User";
+import React from 'react';
+import {getUser} from "../User/User";
 
 
 class SubnaviUserBackend extends React.Component {

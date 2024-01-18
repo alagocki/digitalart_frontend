@@ -22,8 +22,7 @@ class ListItemContainer extends React.Component {
                         <div className="text-gray-400">{this.state.email}</div>
                         <div className="">
                             <Button
-                                label="Edit"
-                                onClick={console.log('test')}/>
+                                label="Edit"/>
                         </div>
                     </div>
                     <div className="flex justify-between">

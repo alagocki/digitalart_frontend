@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 
 import BackendHeader from "../../website/backend/BackendHeader";
 import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
 import {Navigate} from 'react-router-dom';
 import {getUser} from "../../website/User/User";
-import {url as api_url} from "../../website/Constants";
 import {fetchToken} from "../../website/Auth";
-import axios from "axios";
 import BackendUserListItems from "./BackendUserListItems";
 
 
