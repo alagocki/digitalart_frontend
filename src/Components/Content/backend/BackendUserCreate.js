@@ -22,16 +22,19 @@ class BackendUserCreate extends React.Component {
             token: '',
             valueEmail: '',
             valuePassword: '',
-            info: '',
             error: false,
-            valueIsCustomer: false
+            valueIsCustomer: false,
+            boxinfo: ''
         };
 
     }
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
-        console.log(inputFieldId + ' ' + inputFieldValue);
         this.setState({[inputFieldId]: inputFieldValue});
+    }
+
+    generateCustomerNumber = () => {
+        return Math.floor(Math.random() * 100000);
     }
 
     handleSubmit = async () => {
@@ -41,7 +44,7 @@ class BackendUserCreate extends React.Component {
             const userData = {
                 email: this.state.valueEmail,
                 password: this.state.valuePassword,
-                customer: (true === this.state.valueIsCustomer) ? 9999999 : null,
+                customer: (true === this.state.valueIsCustomer) ? this.generateCustomerNumber() : null,
             };
 
             axios.post(url, userData)
@@ -56,7 +59,11 @@ class BackendUserCreate extends React.Component {
                     )
                 )
                 .catch(error => {
-                    this.setState({info: error.message, error: true});
+                    let infoMessage = error.message;
+                    if (error.response.status === 422) {
+                        infoMessage = 'Incorrect email address: ' + this.state.valueEmail;
+                    }
+                    this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                 });
 
         } catch (error) {
@@ -72,31 +79,38 @@ class BackendUserCreate extends React.Component {
                     {<BackendHeader/>}
                     {<SubnaviUserBackend/>}
 
-                    <h1 className="mb-4 mt-2 text-lg font-extrabold leading-none tracking-tight text-amber-900 md:text-2xl lg:text-3xl ">
-                        {(this.state.error === true) ?
-                            <div className="text-red-800">{this.state.info}</div> : this.state.info}
+                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                        Create new user
                     </h1>
                     <div className="flex justify-center">
-                        <form className="w-4/5 mt-4 border-l border-b border-white p-4 rounded-b-lg shadow-xl">
-                            <InputCheckbox
-                                id="valueIsCustomer"
-                                label="Is Customer"
-                                onChange={this.handleFieldChange}
-                                value={this.state.isCustomer}/>
-                            <InputEmail
-                                id="valueEmail"
-                                label="Email"
-                                onChange={this.handleFieldChange}
-                                value={this.state.valueEmail}/>
-                            <InputPassword
-                                id="valuePassword"
-                                label="Passwort"
-                                onChange={this.handleFieldChange}
-                                value={this.state.valuePassword}/>
-                            <Button
-                                label="Speichern"
-                                onClick={this.handleSubmit}
-                            />
+
+                        <form
+                            className="w-full mt-4 border-l border border-gray-300 rounded-b-lg rounded-t-lg shadow-xl mx-3">
+                            <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex rounded-t-lg">
+                                <div>{(this.state.error === true) ?
+                                    <div className="text-red-800">{this.state.boxinfo}</div> : this.state.boxinfo}</div>
+                            </div>
+                            <div className="px-6 py-4">
+                                <InputCheckbox
+                                    id="valueIsCustomer"
+                                    label="Is Customer"
+                                    onChange={this.handleFieldChange}
+                                    value={this.state.valueIsCustomer}/>
+                                <InputEmail
+                                    id="valueEmail"
+                                    label="Email"
+                                    onChange={this.handleFieldChange}
+                                    value={this.state.valueEmail}/>
+                                <InputPassword
+                                    id="valuePassword"
+                                    label="Passwort"
+                                    onChange={this.handleFieldChange}
+                                    value={this.state.valuePassword}/>
+                                <Button
+                                    label="Save"
+                                    onClick={this.handleSubmit}
+                                />
+                            </div>
                         </form>
 
                     </div>
@@ -109,7 +123,7 @@ class BackendUserCreate extends React.Component {
         this.setState({
             user: getUser(),
             token: fetchToken(),
-            info: 'Create new user'
+            boxinfo: '+'
         });
     }
 
