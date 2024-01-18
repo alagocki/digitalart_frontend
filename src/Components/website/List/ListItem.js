@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Form/Button";
 
-class ListItemContainer extends React.Component {
+class ListItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -9,13 +9,17 @@ class ListItemContainer extends React.Component {
             id: props.id,
             email: props.email,
             forename: props.forename,
-            lastname: props.lastname
+            lastname: props.lastname,
+            street: props.street,
+            streetnumber: props.streetnumber,
+            city: props.city,
+            zip: props.zip,
         };
     }
 
     render() {
         return (
-            <div className="w-full mt-4 border m-3 border-gray-300 rounded-b-lg rounded-t-lg shadow-xl"
+            <div className="mt-4 border m-3 border-gray-300 rounded-b-lg rounded-t-lg shadow-xl"
                  key={this.state.id}>
                 <div className="">
                     <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg">
@@ -32,7 +36,8 @@ class ListItemContainer extends React.Component {
                             </h3>
                         </p>
                         <p className="text-gray-700 text-base px-6 py-4">
-                            {this.state.id}
+                            {this.state.street} {this.state.streetnumber}<br/>
+                            {this.state.zip} {this.state.city}
                         </p>
                     </div>
 
@@ -48,4 +53,4 @@ class ListItemContainer extends React.Component {
 
 }
 
-export default ListItemContainer;
+export default ListItem;
