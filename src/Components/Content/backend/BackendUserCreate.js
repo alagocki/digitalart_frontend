@@ -24,7 +24,9 @@ class BackendUserCreate extends React.Component {
             valuePassword: '',
             error: false,
             valueIsCustomer: false,
-            boxinfo: ''
+            boxinfo: '',
+            newUserCreated: false,
+            createdUserId: '',
         };
 
     }
@@ -49,12 +51,12 @@ class BackendUserCreate extends React.Component {
 
             axios.post(url, userData)
                 .then(
-                    () => this.setState(
+                    (response) => this.setState(
                         {
-                            info: 'User ' + this.state.valueEmail + ' created',
-                            valueEmail: '',
-                            valuePassword: '',
-                            error: false
+                            boxinfo: 'User ' + this.state.valueEmail + ' created',
+                            error: false,
+                            newUserCreated: true,
+                            createdUserId: response.data.id,
                         }
                     )
                 )
@@ -62,6 +64,9 @@ class BackendUserCreate extends React.Component {
                     let infoMessage = error.message;
                     if (error.response.status === 422) {
                         infoMessage = 'Incorrect email address: ' + this.state.valueEmail;
+                    }
+                    if (error.response.status === 400) {
+                        infoMessage = 'User ' + this.state.valueEmail + ' already exists';
                     }
                     this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                 });
@@ -88,7 +93,8 @@ class BackendUserCreate extends React.Component {
                             className="w-full mt-4 border-l border border-gray-300 rounded-b-lg rounded-t-lg shadow-xl mx-3">
                             <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex rounded-t-lg">
                                 <div>{(this.state.error === true) ?
-                                    <div className="text-red-800">{this.state.boxinfo}</div> : this.state.boxinfo}</div>
+                                    <div className="text-red-800">{this.state.boxinfo}</div> : this.state.boxinfo}
+                                </div>
                             </div>
                             <div className="px-6 py-4">
                                 <InputCheckbox
@@ -128,6 +134,11 @@ class BackendUserCreate extends React.Component {
     }
 
     render() {
+        if (this.state.newUserCreated === true) {
+            const url = '/backend/user/create-address/' + this.state.createdUserId + '/' + encodeURIComponent(this.state.valueEmail)
+            return <Navigate to={url}/>;
+        }
+
         return (
             <div>
                 {this.state.user.is_superuser === false ? <Navigate to="/backend/user"/> : this.getBackendUserCreate()}

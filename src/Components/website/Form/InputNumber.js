@@ -1,6 +1,6 @@
 import React from "react";
 
-class InputText extends React.Component {
+class InputNumber extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,9 +10,9 @@ class InputText extends React.Component {
         };
     }
 
-    handleChangeText = (event) => {
-        const text = event.target.value;
-        this.props.onChange(this.props.id, text);
+    handleChangeNumber = (event) => {
+        const number = event.target.value;
+        this.props.onChange(this.props.id, number);
     }
 
     render() {
@@ -28,9 +28,9 @@ class InputText extends React.Component {
                     <input
                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id={this.state.inputid}
-                        type="text"
+                        type="number"
                         value={this.props.value}
-                        onChange={this.handleChangeText}/>
+                        onChange={this.handleChangeNumber}/>
                 </div>
             </div>
         );
@@ -38,4 +38,4 @@ class InputText extends React.Component {
 
 }
 
-export default InputText;
+export default InputNumber;
