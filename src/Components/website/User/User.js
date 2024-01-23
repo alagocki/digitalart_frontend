@@ -2,17 +2,22 @@ import {url as api_url} from "../Constants";
 import {fetchToken} from "../Auth";
 import axios from "axios";
 
-function errorHandler() {
-    // console.error('error');
+function errorHandler(error) {
+    throw new Error('ERROR: ' + error);
 }
 
 export const setUser = async () => {
-    const user = getUserFromApi();
+    const user = await getUserFromApi();
+    localStorage.setItem('user', JSON.stringify(user))
+}
 
-    getUserFromApi()
-        .then(() => user)
-        .then(data => localStorage.setItem('user', JSON.stringify(data)))// rest of script
-        .catch(errorHandler);
+export const getAllUser = () => {
+    try {
+        return getAllUserFromApi();
+    } catch (error) {
+        errorHandler(error);
+    }
+
 }
 
 export const getUser = () => {
@@ -40,7 +45,28 @@ const getUserFromApi = async () => {
         const {data: response} = await axios.get(url, options);
         return response; // <- promise
     } catch (error) {
-        // console.log(error);
+        throw new Error(error);
+    }
+
+}
+
+const getAllUserFromApi = async () => {
+
+    let url = api_url + 'user/all';
+    let token = fetchToken();
+    let options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    try {
+        const {data: response} = await axios.get(url, options);
+        return response;
+    } catch (error) {
+        throw new Error(error);
     }
 
 }

@@ -141,7 +141,7 @@ class BackendUserCreate extends React.Component {
 
         return (
             <div>
-                {this.state.user.is_superuser === false ? <Navigate to="/backend/user"/> : this.getBackendUserCreate()}
+                {this.state.user.is_superuser === false ? <Navigate to="/backend"/> : this.getBackendUserCreate()}
             </div>
         );
     }
