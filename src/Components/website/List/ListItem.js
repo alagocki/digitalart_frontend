@@ -30,11 +30,11 @@ class ListItem extends React.Component {
                         </div>
                     </div>
                     <div className="flex justify-between">
-                        <p className="px-6 py-4">
+                        <div className="px-6 py-4">
                             <h3 className="text-3xl font-bold text-amber-950">
                                 {this.state.lastname},<br/> {this.state.forename}
                             </h3>
-                        </p>
+                        </div>
                         <p className="text-gray-700 text-base px-6 py-4">
                             {this.state.street} {this.state.streetnumber}<br/>
                             {this.state.zip} {this.state.city}

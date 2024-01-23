@@ -69,7 +69,7 @@ class BackendUserAdress extends React.Component {
                 .then(
                     () => this.setState(
                         {
-                            boxinfo: 'Adress for created',
+                            boxinfo: 'Adress created',
                             error: false,
 
                         }
@@ -185,7 +185,7 @@ class BackendUserAdress extends React.Component {
         return (
             <div>
                 {this.state.user.is_superuser === false ?
-                    <Navigate to="/backend/user"/> : this.getBackendUserCreateAdress()}
+                    <Navigate to="/backend"/> : this.getBackendUserCreateAdress()}
             </div>
         );
     }

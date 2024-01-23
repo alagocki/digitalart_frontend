@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {useNavigate} from "react-router";
 import {removeToken} from "../Auth";
 import {removeUser, isSuperUser} from "../User/User";
+import {getCurrentPath} from "./NaviHelper";
 
 const TopnaviBackend = () => {
 
     const navigate = useNavigate();
-
 
     const signOut = () => {
         removeToken();
@@ -20,12 +20,12 @@ const TopnaviBackend = () => {
         if (isSuperUser() === true) {
             navi = (
                 <ul className="md:flex md:items-center z-[-1] md:z-auto md:static absolute w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-500">
-                    <li className="md:my-0 p-2 mr-1">
-                        <a href="/backend/user" className="text-xl hover:text-cyan-500 duration-500">User</a>
+                    <li className={(getCurrentPath().includes('order')) ? "md:my-0 p-2 mr-1 text-blue-500" : "md:my-0 p-2 mr-1"}>
+                        <a href="/backend/order/list" className="text-xl hover:text-cyan-500">Order</a>
                     </li>
                     <li>|</li>
-                    <li className="md:my-0 p-2 mr-1">
-                        <a href="#" className="text-xl hover:text-cyan-500 duration-500">Kontakt</a>
+                    <li className={(getCurrentPath().includes('user')) ? "md:my-0 p-2 mr-1 text-blue-500" : "md:my-0 p-2 mr-1"}>
+                        <a href="/backend/user/list" className="text-xl hover:text-cyan-500">User</a>
                     </li>
                     <li>|</li>
                     <li className="md:my-0 p-2 ml-1">

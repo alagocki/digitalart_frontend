@@ -1,41 +1,30 @@
 import React, {useEffect, useState} from "react";
 
-import {url as api_url} from "../../website/Constants";
-import {fetchToken} from "../../website/Auth";
-import axios from "axios";
 import ListItem from "../../website/List/ListItem";
 import BackendHeader from "../../website/backend/BackendHeader";
 import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
+import {getAllUser} from "../../website/User/User";
 
 
 const BackendUserList = () => {
 
+    const [userData, setUser] = useState([]);
+    const [loading, setLoading] = useState({
+        loading: true,
+    });
 
-    const fetchImagesData = () => {
+    const fetchUserData = () => {
 
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [userData, setUser] = useState([]);
 
-        let token = fetchToken();
-        let url = api_url + 'user/all';
-        let options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
-        };
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useEffect(() => {
             const fetchUsers = async () => {
                 try {
-                    const response = await axios.get(url, options);
-                    if (response.status === 200) {
-                        // console.log(response.data.users);
-                        setUser(response.data.users);
-                    } else {
-                        console.error('ERROR: ' + response.status);
+                    if (loading) {
+                        const response = await getAllUser();
+                        setUser(response.users);
+                        setLoading(false);
                     }
 
                 } catch (error) {
@@ -44,6 +33,7 @@ const BackendUserList = () => {
             };
             fetchUsers().then();
         });
+
 
         return (
             <div className="grid grid-cols-2 gap-2">
@@ -80,7 +70,7 @@ const BackendUserList = () => {
                 <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                     User List
                 </h1>
-                {fetchImagesData()}
+                {fetchUserData()}
             </div>
         </main>
     )
