@@ -5,7 +5,6 @@ import Backend from './Components/Content/backend/Backend';
 import Homepage from './Components/Content/Homepage';
 import {RequireToken} from "./Components/website/Auth";
 import Login from "./Components/website/Login";
-import BackendUser from "./Components/Content/backend/BackendUser";
 import BackendUserCreate from "./Components/Content/backend/BackendUserCreate";
 import BackendUserList from "./Components/Content/backend/BackendUserList";
 import BackendUserAddress from "./Components/Content/backend/BackendUserAddress";

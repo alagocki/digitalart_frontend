@@ -10,6 +10,7 @@ import axios from "axios";
 import SubnaviOrderBackend from "../../website/backend/SubnaviOrderBackend";
 import InputText from "../../website/Form/InputText";
 import InputDropdown from "../../website/Form/InputDropdown";
+import InputFile from "../../website/Form/InputFile";
 
 
 class BackendOrderCreate extends React.Component {
@@ -23,6 +24,7 @@ class BackendOrderCreate extends React.Component {
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
+            valueFile: [],
             error: false,
             boxinfo: '',
             newOrderCreated: false,
@@ -33,6 +35,12 @@ class BackendOrderCreate extends React.Component {
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
         this.setState({[inputFieldId]: inputFieldValue});
+    }
+
+    handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
+        this.setState(prevState => ({
+            valueFile: [...prevState.valueFile, inputFieldValue]
+        }))
     }
 
     handleSubmit = async () => {
@@ -47,30 +55,25 @@ class BackendOrderCreate extends React.Component {
                     'Authorization': 'Bearer ' + token
                 }
             };
+
+            let imageData = [];
+            for (let i = 0; i < this.state.valueFile.length; i++) {
+                imageData[i] = {
+                    name: this.state.valueFile[i],
+                    description: 'Bild ' + i,
+                    status: 'unbearbeitet',
+                    downloaded: false,
+                    path: '/' + this.state.valueFile[i] + '.jpg'
+                }
+            }
+
             const orderData = {
                 topic: this.state.valueTopic,
                 info: this.state.valueInfo,
                 status: ('' !== this.state.valueStatus) ? this.state.valueStatus : 'offen',
                 customer_id: this.state.valueCustomer,
-                images: [
-                    {
-                        "name": "bild1.jpg",
-                        "description": "Bild 1",
-                        "status": "unbearbeitet",
-                        "downloaded": false,
-                        "path": "path/to/image1.jpg"
-                    },
-                    {
-                        "name": "bild2.jpg",
-                        "description": "Bild 2",
-                        "status": "unbearbeitet",
-                        "downloaded": false,
-                        "path": "path/to/image2.jpg"
-                    }
-                ]
+                images: imageData
             };
-
-            console.log(orderData);
 
             axios.post(url, orderData, axiosConfig)
                 .then(
@@ -81,19 +84,21 @@ class BackendOrderCreate extends React.Component {
                             newUserCreated: true,
                             valueTopic: '',
                             valueInfo: '',
+                            valueStatus: '',
+                            valueCustomer: '',
+                            valueFile: [],
                         }
                     )
                 )
                 .catch(error => {
                     let infoMessage = error.message;
-                    console.log(error);
-                    // if (error.response.status === 422) {
-                    //     infoMessage = 'Incorrect Order (Status 422)';
-                    // }
-                    // if (error.response.status === 400) {
-                    //     infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                    // }
-                    // this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                    if (error.response.status === 422) {
+                        infoMessage = 'Incorrect Order (Status 422)';
+                    }
+                    if (error.response.status === 400) {
+                        infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                    }
+                    this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                 });
 
         } catch (error) {
@@ -176,6 +181,12 @@ class BackendOrderCreate extends React.Component {
                                     items={Status}
                                     onChange={this.handleFieldChange}
                                     value={this.state.valueStatus}/>
+                                <InputFile
+                                    id="valueFile"
+                                    label="Files"
+                                    customer="true"
+                                    onChange={this.handleFieldChangeFile}
+                                    value={this.state.valueFile}/>
                                 <Button
                                     label="Save"
                                     onClick={this.handleSubmit}
