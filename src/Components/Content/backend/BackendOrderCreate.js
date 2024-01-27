@@ -24,13 +24,12 @@ class BackendOrderCreate extends React.Component {
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
-            selectedFile: null,
+            selectedFile: [],
             error: false,
             boxinfo: '',
             newOrderCreated: false,
             preparedUserData: '',
         };
-
     }
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
@@ -39,8 +38,7 @@ class BackendOrderCreate extends React.Component {
 
     handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
         this.setState(prevState => ({
-            selectedFile: inputFieldValue
-            // selectedFile: [...prevState.selectedFile, inputFieldValue]
+            selectedFile: [...prevState.selectedFile, inputFieldValue]
         }))
     }
 
@@ -49,6 +47,7 @@ class BackendOrderCreate extends React.Component {
         if (!this.state.selectedFile) {
             return;
         }
+
         let url = api_url + 'order/images/upload';
         let token = fetchToken();
         let axiosConfig = {
@@ -60,16 +59,21 @@ class BackendOrderCreate extends React.Component {
                 console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
             }
         };
+
         const fd = new FormData();
-        fd.append('file_upload', this.state.selectedFile, this.state.selectedFile.name);
+        for (var i = 0; i < this.state.selectedFile.length; i++) {
+            fd.append('file_upload', this.state.selectedFile[i]);
+        }
 
         axios.post(url, fd, axiosConfig)
             .then(res => {
+                console.log(res);
                 this.setState({
                     error: false
                 })
             })
             .catch(err => {
+                console.log(err);
                 this.setState({
                     error: true
                 })
@@ -81,8 +85,7 @@ class BackendOrderCreate extends React.Component {
     handleSubmit = async () => {
 
         try {
-            const test = this.fileUploadHandler();
-            if (!test) {
+            if (!this.fileUploadHandler()) {
                 this.setState({
                         boxinfo: 'Error uploading files', error: true
                     }
@@ -101,23 +104,15 @@ class BackendOrderCreate extends React.Component {
 
             let imageData = [];
 
-            imageData[0] = {
-                name: this.state.selectedFile.name,
-                description: 'Bild ' + 1,
-                status: 'unbearbeitet',
-                downloaded: false,
-                path: '/' + this.state.selectedFile.name
+            for (let i = 0; i < this.state.selectedFile.length; i++) {
+                imageData[i] = {
+                    name: this.state.selectedFile[i].name,
+                    description: 'Bild ' + i,
+                    status: 'unbearbeitet',
+                    downloaded: false,
+                    path: '/' + this.state.selectedFile[i].name
+                }
             }
-
-            // for (let i = 0; i < this.state.selectedFile.length; i++) {
-            //     imageData[i] = {
-            //         name: this.state.selectedFile[i].name,
-            //         description: 'Bild ' + i,
-            //         status: 'unbearbeitet',
-            //         downloaded: false,
-            //         path: '/' + this.state.selectedFile[i].name
-            //     }
-            // }
 
             const orderData = {
                 topic: this.state.valueTopic,
