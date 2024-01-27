@@ -24,7 +24,7 @@ class BackendOrderCreate extends React.Component {
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
-            valueFile: [],
+            selectedFile: null,
             error: false,
             boxinfo: '',
             newOrderCreated: false,
@@ -39,13 +39,56 @@ class BackendOrderCreate extends React.Component {
 
     handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
         this.setState(prevState => ({
-            valueFile: [...prevState.valueFile, inputFieldValue]
+            selectedFile: inputFieldValue
+            // selectedFile: [...prevState.selectedFile, inputFieldValue]
         }))
+    }
+
+    fileUploadHandler = () => {
+
+        if (!this.state.selectedFile) {
+            return;
+        }
+        let url = api_url + 'order/images/upload';
+        let token = fetchToken();
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + token
+            },
+            onUploadProgress: progressEvent => {
+                console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+            }
+        };
+        const fd = new FormData();
+        fd.append('file_upload', this.state.selectedFile, this.state.selectedFile.name);
+
+        axios.post(url, fd, axiosConfig)
+            .then(res => {
+                this.setState({
+                    error: false
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    error: true
+                })
+            });
+
+        return (this.state.error === false);
     }
 
     handleSubmit = async () => {
 
         try {
+            const test = this.fileUploadHandler();
+            if (!test) {
+                this.setState({
+                        boxinfo: 'Error uploading files', error: true
+                    }
+                );
+                return;
+            }
 
             let url = api_url + 'order/create';
             let token = fetchToken();
@@ -57,15 +100,24 @@ class BackendOrderCreate extends React.Component {
             };
 
             let imageData = [];
-            for (let i = 0; i < this.state.valueFile.length; i++) {
-                imageData[i] = {
-                    name: this.state.valueFile[i],
-                    description: 'Bild ' + i,
-                    status: 'unbearbeitet',
-                    downloaded: false,
-                    path: '/' + this.state.valueFile[i] + '.jpg'
-                }
+
+            imageData[0] = {
+                name: this.state.selectedFile.name,
+                description: 'Bild ' + 1,
+                status: 'unbearbeitet',
+                downloaded: false,
+                path: '/' + this.state.selectedFile.name
             }
+
+            // for (let i = 0; i < this.state.selectedFile.length; i++) {
+            //     imageData[i] = {
+            //         name: this.state.selectedFile[i].name,
+            //         description: 'Bild ' + i,
+            //         status: 'unbearbeitet',
+            //         downloaded: false,
+            //         path: '/' + this.state.selectedFile[i].name
+            //     }
+            // }
 
             const orderData = {
                 topic: this.state.valueTopic,
@@ -86,7 +138,7 @@ class BackendOrderCreate extends React.Component {
                             valueInfo: '',
                             valueStatus: '',
                             valueCustomer: '',
-                            valueFile: [],
+                            selectedFile: null,
                         }
                     )
                 )
@@ -182,11 +234,11 @@ class BackendOrderCreate extends React.Component {
                                     onChange={this.handleFieldChange}
                                     value={this.state.valueStatus}/>
                                 <InputFile
-                                    id="valueFile"
+                                    id="selectedFile"
                                     label="Files"
                                     customer="true"
                                     onChange={this.handleFieldChangeFile}
-                                    value={this.state.valueFile}/>
+                                    value={this.state.selectedFile}/>
                                 <Button
                                     label="Save"
                                     onClick={this.handleSubmit}
