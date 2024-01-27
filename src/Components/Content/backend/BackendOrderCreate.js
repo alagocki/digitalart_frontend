@@ -30,7 +30,6 @@ class BackendOrderCreate extends React.Component {
             newOrderCreated: false,
             preparedUserData: '',
         };
-
     }
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
@@ -266,6 +265,5 @@ class BackendOrderCreate extends React.Component {
     }
 
 }
-
 
 export default BackendOrderCreate;

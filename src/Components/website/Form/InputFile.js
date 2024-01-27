@@ -65,7 +65,6 @@ class InputText extends React.Component {
             </div>
         );
     }
-
 }
 
 export default InputText;
