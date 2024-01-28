@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import ListItem from "../../website/List/ListItem";
+import ListItemUser from "../../website/List/ListItemUser";
 import BackendHeader from "../../website/backend/BackendHeader";
 import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
 import {getAllUser} from "../../website/User/User";
@@ -14,8 +14,6 @@ const BackendUserList = () => {
     });
 
     const fetchUserData = () => {
-
-
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useEffect(() => {
@@ -34,7 +32,6 @@ const BackendUserList = () => {
             fetchUsers().then();
         });
 
-
         return (
             <div className="grid grid-cols-2 gap-2">
                 {
@@ -42,7 +39,7 @@ const BackendUserList = () => {
                         let elementList = '';
                         // eslint-disable-next-line array-callback-return
                         Object.keys(user).map((key) => {
-                            elementList = <ListItem
+                            elementList = <ListItemUser
                                 key={user[key]['id']}
                                 id={user[key]['id']}
                                 email={user[key]['email']}
@@ -56,9 +53,7 @@ const BackendUserList = () => {
                         });
                         return elementList;
                     })}
-            </div>
-        );
-
+            </div>);
     };
 
     return (
@@ -73,8 +68,7 @@ const BackendUserList = () => {
                 {fetchUserData()}
             </div>
         </main>
-    )
-        ;
+    );
 
 }
 
