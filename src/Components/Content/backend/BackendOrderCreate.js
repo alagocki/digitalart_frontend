@@ -11,7 +11,7 @@ import SubnaviOrderBackend from "../../website/backend/SubnaviOrderBackend";
 import InputText from "../../website/Form/InputText";
 import InputDropdown from "../../website/Form/InputDropdown";
 import InputFile from "../../website/Form/InputFile";
-
+import InputDatePicker from "../../website/Form/InputDatePicker";
 
 class BackendOrderCreate extends React.Component {
 
@@ -24,6 +24,7 @@ class BackendOrderCreate extends React.Component {
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
+            valueShootingDate: '',
             selectedFile: [],
             error: false,
             boxinfo: '',
@@ -42,14 +43,13 @@ class BackendOrderCreate extends React.Component {
         }))
     }
 
-    fileUploadHandler = () => {
+    fileUploadHandler = (token) => {
 
         if (!this.state.selectedFile) {
             return;
         }
 
         let url = api_url + 'order/images/upload';
-        let token = fetchToken();
         let axiosConfig = {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -85,7 +85,10 @@ class BackendOrderCreate extends React.Component {
     handleSubmit = async () => {
 
         try {
-            if (!this.fileUploadHandler()) {
+
+            let token = fetchToken();
+
+            if (!this.fileUploadHandler(token)) {
                 this.setState({
                         boxinfo: 'Error uploading files', error: true
                     }
@@ -93,16 +96,14 @@ class BackendOrderCreate extends React.Component {
                 return;
             }
 
+            let imageData = [];
             let url = api_url + 'order/create';
-            let token = fetchToken();
             let axiosConfig = {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
-
-            let imageData = [];
 
             for (let i = 0; i < this.state.selectedFile.length; i++) {
                 imageData[i] = {
@@ -117,10 +118,14 @@ class BackendOrderCreate extends React.Component {
             const orderData = {
                 topic: this.state.valueTopic,
                 info: this.state.valueInfo,
+                order_number: Math.floor(Math.random() * 100000),
+                shooting_date: this.state.valueShootingDate, //'2024-01-08 07:38:04.844915',
                 status: ('' !== this.state.valueStatus) ? this.state.valueStatus : 'offen',
                 customer_id: this.state.valueCustomer,
                 images: imageData
             };
+
+            console.log(orderData)
 
             axios.post(url, orderData, axiosConfig)
                 .then(
@@ -138,14 +143,15 @@ class BackendOrderCreate extends React.Component {
                     )
                 )
                 .catch(error => {
-                    let infoMessage = error.message;
-                    if (error.response.status === 422) {
-                        infoMessage = 'Incorrect Order (Status 422)';
-                    }
-                    if (error.response.status === 400) {
-                        infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                    }
-                    this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                    console.log(error);
+                    // let infoMessage = error.message;
+                    // if (error.response.status === 422) {
+                    //     infoMessage = 'Incorrect Order (Status 422)';
+                    // }
+                    // if (error.response.status === 400) {
+                    //     infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                    // }
+                    // this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                 });
 
         } catch (error) {
@@ -228,6 +234,11 @@ class BackendOrderCreate extends React.Component {
                                     items={Status}
                                     onChange={this.handleFieldChange}
                                     value={this.state.valueStatus}/>
+                                <InputDatePicker
+                                    id="valueShootingDate"
+                                    label="Shooting Date"
+                                    value={this.state.valueShootingDate}
+                                    onChange={this.handleFieldChange}/>
                                 <InputFile
                                     id="selectedFile"
                                     label="Files"

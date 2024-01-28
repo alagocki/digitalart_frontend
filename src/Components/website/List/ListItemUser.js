@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Form/Button";
 
-class ListItem extends React.Component {
+class ListItemUser extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,10 +47,9 @@ class ListItem extends React.Component {
                         className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
                 </div>
             </div>
-        )
-            ;
+        );
     }
 
 }
 
-export default ListItem;
+export default ListItemUser;

@@ -1,20 +1,62 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import BackendHeader from "../../website/backend/BackendHeader";
 import SubnaviOrderBackend from "../../website/backend/SubnaviOrderBackend";
+import {getAllOrder} from "../../website/Order/Order";
+import ListItemOrder from "../../website/List/ListItemOrder";
+import {Navigate} from "react-router-dom";
 
 
 const BackendOrderList = () => {
 
+    const [orderData, setOrder] = useState([]);
+    const [loading, setLoading] = useState({
+        loading: true,
+    });
 
     const fetchOrderData = () => {
 
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+            const fetchUsers = async () => {
+                try {
+                    if (loading) {
+                        const response = await getAllOrder();
+                        // if(response.status === 401){
+                        //     Navigate = '/login';
+                        // }
+                        setOrder(response.orders);
+                        setLoading(false);
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            fetchUsers().then();
+        });
+
         return (
             <div className="grid grid-cols-2 gap-2">
-                List will be here
-            </div>
-        );
-
+                {
+                    orderData.map((order) => {
+                        let elementList = '';
+                        // eslint-disable-next-line array-callback-return
+                        Object.keys(order).map((key) => {
+                            elementList = <ListItemOrder
+                                key={order[key]['id']}
+                                id={order[key]['id']}
+                                forename={order[key]['forename']}
+                                lastname={order[key]['lastname']}
+                                topic={order[key]['topic']}
+                                info={order[key]['info']}
+                                status={order[key]['status']}
+                            />
+                        });
+                        return elementList;
+                    })}
+            </div>);
     };
+
 
     return (
         <main className="pt-20">
