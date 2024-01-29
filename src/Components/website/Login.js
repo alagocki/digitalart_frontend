@@ -36,7 +36,6 @@ const Login = () => {
                     await setUser()
 
                     const timer = setTimeout(() => {
-                        // console.log('This will run after 1 second!')
                         navigate("/backend");
                     }, 1000);
                     return () => clearTimeout(timer);

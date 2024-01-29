@@ -1,7 +1,6 @@
 import React from "react";
 
 import BackendHeader from "../../website/backend/BackendHeader";
-import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
 import InputCheckbox from "../../website/Form/InputCheckbox";
 import InputEmail from "../../website/Form/InputEmail";
 import InputPassword from "../../website/Form/InputPassword";
@@ -11,6 +10,7 @@ import {getUser} from "../../website/User/User";
 import {url as api_url} from "../../website/Constants";
 import {fetchToken} from "../../website/Auth";
 import axios from "axios";
+import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
 
 
 class BackendUserCreate extends React.Component {
@@ -82,7 +82,7 @@ class BackendUserCreate extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviUserBackend/>}
+                    {<SubnaviBackendStandard type={'user'}/>}
 
                     <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                         Create new user

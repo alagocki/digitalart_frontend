@@ -1,46 +1,47 @@
 import React from "react";
 import Button from "../Form/Button";
 
-class ListItemUser extends React.Component {
+class ListItem extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             id: props.id,
-            email: props.email,
-            forename: props.forename,
-            lastname: props.lastname,
-            street: props.street,
-            streetnumber: props.streetnumber,
-            city: props.city,
-            zip: props.zip,
+            headlineCardHeader: props.headlineCardHeader,
+            headline1: props.headline1,
+            headline2: props.headline2,
+            info1: props.info1,
+            info2: props.info2,
+            info3: props.info3,
         };
     }
 
     render() {
         return (
-            <div className="mt-4 border m-3 border-gray-300 rounded-b-lg rounded-t-lg shadow-xl"
-                 key={this.state.id}>
+            <div className="mt-4 border m-3 border-gray-300 rounded-b-lg rounded-t-lg shadow-xl" key={this.state.key}>
                 <div className="">
                     <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg">
-                        <div className="text-gray-400">{this.state.email}</div>
+                        <div className="text-gray-400">{this.state.headlineCardHeader}</div>
                         <div className="">
                             <Button
-                                label="Edit"/>
+                                label="Details"/>
                         </div>
                     </div>
                     <div className="flex justify-between">
                         <div className="px-6 py-4">
                             <h3 className="text-3xl font-bold text-amber-950">
-                                {this.state.lastname},<br/> {this.state.forename}
+                                {this.state.headline1},<br/> {this.state.headline2}
                             </h3>
                         </div>
-                        <p className="text-gray-700 text-base px-6 py-4">
-                            {this.state.street} {this.state.streetnumber}<br/>
-                            {this.state.zip} {this.state.city}
-                        </p>
+                        <div className="text-gray-700 text-base px-6 py-4 w-1/2">
+                            {this.state.info1}<br/>
+                            {this.state.info2}
+                            <hr className="w-full"/>
+                            <p className="pt-2">
+                                {this.state.info3}
+                            </p>
+                        </div>
                     </div>
-
                 </div>
                 <div className="px-6 pt-4 pb-2">
                     <span
@@ -52,4 +53,4 @@ class ListItemUser extends React.Component {
 
 }
 
-export default ListItemUser;
+export default ListItem

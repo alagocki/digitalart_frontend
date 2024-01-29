@@ -6,10 +6,9 @@ import Homepage from './Components/Content/Homepage';
 import {RequireToken} from "./Components/website/Auth";
 import Login from "./Components/website/Login";
 import BackendUserCreate from "./Components/Content/backend/BackendUserCreate";
-import BackendUserList from "./Components/Content/backend/BackendUserList";
 import BackendUserAddress from "./Components/Content/backend/BackendUserAddress";
-import BackendOrderList from "./Components/Content/backend/BackendOrderList";
 import BackendOrderCreate from "./Components/Content/backend/BackendOrderCreate";
+import BackendList from "./Components/Content/backend/BackendList";
 
 const App = () => {
     return (
@@ -36,12 +35,12 @@ const App = () => {
                     }/>
                     <Route path="/backend/user/list" element={
                         <RequireToken>
-                            <BackendUserList/>
+                            <BackendList type={'user'}/>
                         </RequireToken>
                     }/>
                     <Route path="/backend/order/list" element={
                         <RequireToken>
-                            <BackendOrderList/>
+                            <BackendList type={'order'}/>
                         </RequireToken>
                     }/>
                     <Route path="/backend/order/create" element={
