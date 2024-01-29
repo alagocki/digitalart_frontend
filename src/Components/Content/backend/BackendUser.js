@@ -1,8 +1,6 @@
 import React from "react";
 import BackendHeader from "../../website/backend/BackendHeader";
-import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
-import {getUser} from "../../website/User/User";
-import { Navigate } from 'react-router-dom';
+import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
 
 
 class BackendUser extends React.Component {
@@ -17,7 +15,7 @@ class BackendUser extends React.Component {
         <main className="pt-20">
             <div className='flex justify-center max-w-7xl flex-col mx-auto w-full'>
                 {<BackendHeader/>}
-                {<SubnaviUserBackend/>}
+                {<SubnaviBackendStandard type={'user'}/>}
                 <h1 className="mb-4 mt-2 text-lg font-extrabold leading-none tracking-tight text-gray-300 md:text-2xl lg:text-3xl">User</h1>
             </div>
         </main>

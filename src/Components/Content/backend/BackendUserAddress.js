@@ -1,7 +1,6 @@
 import React from "react";
 
 import BackendHeader from "../../website/backend/BackendHeader";
-import SubnaviUserBackend from "../../website/backend/SubnaviUserBackend";
 import Button from "../../website/Form/Button";
 import {Navigate, useParams} from 'react-router-dom';
 import {getUser} from "../../website/User/User";
@@ -10,6 +9,7 @@ import {fetchToken} from "../../website/Auth";
 import axios from "axios";
 import InputText from "../../website/Form/InputText";
 import InputNumber from "../../website/Form/InputNumber";
+import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
 
 function withParams(Component) {
     return (props) => <Component {...props} params={useParams()}/>;
@@ -92,7 +92,7 @@ class BackendUserAdress extends React.Component {
                 .catch(error => {
                     let infoMessage = error.message;
                     if (error.response.status === 422) {
-                        console.log(error);
+                        console.error(error);
                         infoMessage = 'Incorrect Data: ' + error.response.statusText;
                     }
                     this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
@@ -110,7 +110,7 @@ class BackendUserAdress extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviUserBackend/>}
+                    {<SubnaviBackendStandard type={'user'}/>}
 
                     <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                         Add User Adress for {this.state.createdUserEmail}

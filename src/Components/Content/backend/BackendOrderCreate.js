@@ -7,11 +7,11 @@ import {getAllUser, getUser} from "../../website/User/User";
 import {url as api_url} from "../../website/Constants";
 import {fetchToken} from "../../website/Auth";
 import axios from "axios";
-import SubnaviOrderBackend from "../../website/backend/SubnaviOrderBackend";
 import InputText from "../../website/Form/InputText";
 import InputDropdown from "../../website/Form/InputDropdown";
 import InputFile from "../../website/Form/InputFile";
 import InputDatePicker from "../../website/Form/InputDatePicker";
+import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
 
 class BackendOrderCreate extends React.Component {
 
@@ -66,8 +66,7 @@ class BackendOrderCreate extends React.Component {
         }
 
         axios.post(url, fd, axiosConfig)
-            .then(res => {
-                console.log(res);
+            .then(() => {
                 this.setState({
                     error: false
                 })
@@ -125,8 +124,6 @@ class BackendOrderCreate extends React.Component {
                 images: imageData
             };
 
-            console.log(orderData)
-
             axios.post(url, orderData, axiosConfig)
                 .then(
                     () => this.setState(
@@ -143,15 +140,15 @@ class BackendOrderCreate extends React.Component {
                     )
                 )
                 .catch(error => {
-                    console.log(error);
-                    // let infoMessage = error.message;
-                    // if (error.response.status === 422) {
-                    //     infoMessage = 'Incorrect Order (Status 422)';
-                    // }
-                    // if (error.response.status === 400) {
-                    //     infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                    // }
-                    // this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                    console.error(error);
+                    let infoMessage = error.message;
+                    if (error.response.status === 422) {
+                        infoMessage = 'Incorrect Order (Status 422)';
+                    }
+                    if (error.response.status === 400) {
+                        infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                    }
+                    this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                 });
 
         } catch (error) {
@@ -168,7 +165,7 @@ class BackendOrderCreate extends React.Component {
             .then((data) => data)
             .then((userdata) => {
                     // eslint-disable-next-line array-callback-return
-                    userdata.users.map((user) => {
+                userdata.data.map((user) => {
                         items.push({[user[0].id]: user[0].forename + ' ' + user[0].lastname});
                     })
                 }
@@ -197,7 +194,7 @@ class BackendOrderCreate extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviOrderBackend/>}
+                    {<SubnaviBackendStandard type={'order'}/>}
 
                     <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                         Create new order

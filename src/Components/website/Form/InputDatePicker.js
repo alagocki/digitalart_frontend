@@ -1,7 +1,5 @@
 import React from "react";
 import Datepicker from "tailwind-datepicker-react";
-import {getUser} from "../User/User";
-import {fetchToken} from "../Auth";
 
 class InputDatePicker extends React.Component {
 
@@ -73,14 +71,15 @@ class InputDatePicker extends React.Component {
         this.props.onChange(this.props.id, this.getFormatedDateString(date));
     }
 
+
     getFormatedDateString(timestamp = null) {
-        var date = new Date(timestamp);
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).substring(-2);
-        var day = ("0" + date.getDate()).substring(-2);
-        var hour = ("0" + date.getHours()).substring(-2);
-        var minutes = ("0" + date.getMinutes()).substring(-2);
-        var seconds = ("0" + date.getSeconds()).substring(-2);
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = ((date.getMonth() + 1) < 10) ? ("0" + (date.getMonth() + 1)).substring(-2) : date.getMonth() + 1;
+        const day = (date.getDate() < 10) ? ("0" + date.getDate()).substring(-2) : date.getDate();
+        const hour = ("0" + date.getHours()).substring(-2);
+        const minutes = ("0" + date.getMinutes()).substring(-2);
+        const seconds = ("0" + date.getSeconds()).substring(-2);
 
         return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
     }
