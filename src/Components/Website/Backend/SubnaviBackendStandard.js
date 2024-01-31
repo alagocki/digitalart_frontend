@@ -26,7 +26,7 @@ const SubnaviBackendStandard = (props) => {
                                 <li className={(getCurrentPath().includes(dataType + '/create')) ? "md:my-0 p-2 ml-0.5 flex text-blue-500 font-medium" : "md:my-0 p-2 ml-0.5 flex"}>
                                     {createLink({string: "create"})}
                                 </li> : null}
-                            <li className={(getCurrentPath().includes(dataType + '/list')) ? "md:my-0 p-2 ml-0.5 flex text-blue-500 font-medium" : "md:my-0 p-2 ml-0.5 flex"}>
+                            <li className={(getCurrentPath().includes(dataType + '/list') || getCurrentPath().includes(dataType + '/detail')) ? "md:my-0 p-2 ml-0.5 flex text-blue-500 font-medium" : "md:my-0 p-2 ml-0.5 flex"}>
                                 {createLink({string: "list"})}
                             </li>
                         </ul>

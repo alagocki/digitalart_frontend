@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../website/Header';
+import Header from '../Website/Header';
 
 /** ToDo: Add a Header first as Component */
 class Homepage extends React.Component {

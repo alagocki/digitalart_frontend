@@ -1,14 +1,15 @@
 import './App.css';
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Backend from './Components/Content/backend/Backend';
+import Backend from './Components/Content/Backend/Backend';
 import Homepage from './Components/Content/Homepage';
-import {RequireToken} from "./Components/website/Auth";
-import Login from "./Components/website/Login";
-import BackendUserCreate from "./Components/Content/backend/BackendUserCreate";
-import BackendUserAddress from "./Components/Content/backend/BackendUserAddress";
-import BackendOrderCreate from "./Components/Content/backend/BackendOrderCreate";
-import BackendList from "./Components/Content/backend/BackendList";
+import {RequireToken} from "./Components/Website/Auth";
+import Login from "./Components/Website/Login";
+import BackendUserCreate from "./Components/Content/Backend/BackendUserCreate";
+import BackendUserAddress from "./Components/Content/Backend/BackendUserAddress";
+import BackendOrderCreate from "./Components/Content/Backend/BackendOrderCreate";
+import BackendList from "./Components/Content/Backend/BackendList";
+import BackendOrderDetail from "./Components/Content/Backend/BackendOrderDetail";
 
 const App = () => {
     return (
@@ -41,6 +42,11 @@ const App = () => {
                     <Route path="/backend/order/list" element={
                         <RequireToken>
                             <BackendList type={'order'}/>
+                        </RequireToken>
+                    }/>
+                    <Route path="/backend/order/detail" element={
+                        <RequireToken>
+                            <BackendOrderDetail/>
                         </RequireToken>
                     }/>
                     <Route path="/backend/order/create" element={
