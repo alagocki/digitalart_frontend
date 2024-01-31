@@ -1,5 +1,5 @@
 import React, {useEffect, useState, Component} from 'react';
-import {getUser} from "../../website/User/User";
+import {getUser} from "../../Website/User/User";
 
 const BackendHome = () => {
 

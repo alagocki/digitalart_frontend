@@ -1,5 +1,5 @@
 import React from 'react';
-import Header_Pic from './images/header_8.png';
+import Header_Pic from './Images/header_8.png';
 import Topnavi from './Topnavi';
 
 const Header = () => {

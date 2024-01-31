@@ -1,15 +1,15 @@
 import React from "react";
 
-import BackendHeader from "../../website/backend/BackendHeader";
-import Button from "../../website/Form/Button";
+import BackendHeader from "../../Website/Backend/BackendHeader";
+import Button from "../../Website/Form/Button";
 import {Navigate, useParams} from 'react-router-dom';
-import {getUser} from "../../website/User/User";
-import {url as api_url} from "../../website/Constants";
-import {fetchToken} from "../../website/Auth";
+import {getUser} from "../../Website/User/User";
+import {url as api_url} from "../../Website/Constants";
+import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
-import InputText from "../../website/Form/InputText";
-import InputNumber from "../../website/Form/InputNumber";
-import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
+import InputText from "../../Website/Form/InputText";
+import InputNumber from "../../Website/Form/InputNumber";
+import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 
 function withParams(Component) {
     return (props) => <Component {...props} params={useParams()}/>;
@@ -118,7 +118,7 @@ class BackendUserAdress extends React.Component {
                     <div className="flex justify-center">
 
                         <form
-                            className="w-full mt-4 border-l border border-gray-300 rounded-b-lg rounded-t-lg shadow-xl mx-3">
+                            className="w-full mt-4 border-l border border-white rounded-b-lg rounded-t-lg shadow-xl mx-3">
                             <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex rounded-t-lg">
                                 <div>{(this.state.error === true) ?
                                     <div className="text-red-800">{this.state.boxinfo}</div> :

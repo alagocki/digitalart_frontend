@@ -1,16 +1,16 @@
 import React from "react";
 
-import BackendHeader from "../../website/backend/BackendHeader";
-import InputCheckbox from "../../website/Form/InputCheckbox";
-import InputEmail from "../../website/Form/InputEmail";
-import InputPassword from "../../website/Form/InputPassword";
-import Button from "../../website/Form/Button";
+import BackendHeader from "../../Website/Backend/BackendHeader";
+import InputCheckbox from "../../Website/Form/InputCheckbox";
+import InputEmail from "../../Website/Form/InputEmail";
+import InputPassword from "../../Website/Form/InputPassword";
+import Button from "../../Website/Form/Button";
 import {Navigate} from 'react-router-dom';
-import {getUser} from "../../website/User/User";
-import {url as api_url} from "../../website/Constants";
-import {fetchToken} from "../../website/Auth";
+import {getUser} from "../../Website/User/User";
+import {url as api_url} from "../../Website/Constants";
+import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
-import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
+import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 
 
 class BackendUserCreate extends React.Component {
@@ -90,7 +90,7 @@ class BackendUserCreate extends React.Component {
                     <div className="flex justify-center">
 
                         <form
-                            className="w-full mt-4 border-l border border-gray-300 rounded-b-lg rounded-t-lg shadow-xl mx-3">
+                            className="w-full mt-4 border-l border border-white rounded-b-lg rounded-t-lg shadow-xl mx-3">
                             <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex rounded-t-lg">
                                 <div>{(this.state.error === true) ?
                                     <div className="text-red-800">{this.state.boxinfo}</div> : this.state.boxinfo}

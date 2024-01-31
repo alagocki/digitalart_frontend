@@ -1,5 +1,5 @@
 import React from "react";
-import Header_Pic from "../images/upload.png";
+import Header_Pic from "../Images/upload.png";
 
 class InputText extends React.Component {
 

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 
-import BackendHeader from "../../website/backend/BackendHeader";
-import {getAllUser, prepareDataUser} from "../../website/User/User";
-import ListItem from "../../website/List/ListItem";
-import {getAllOrder, prepareDataOrder} from "../../website/Order/Order";
-import SubnaviBackendStandard from "../../website/backend/SubnaviBackendStandard";
+import BackendHeader from "../../Website/Backend/BackendHeader";
+import {getAllUser, prepareDataUser} from "../../Website/User/User";
+import ListItem from "../../Website/List/ListItem";
+import {getAllOrder, prepareDataOrder} from "../../Website/Order/Order";
+import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
 
 
@@ -61,6 +61,7 @@ const BackendUserList = (props) => {
                                 info1={data['info1']}
                                 info2={data['info2']}
                                 info3={data['info3']}
+                                dataType={dataType}
                             />
                         });
                         return elementList;

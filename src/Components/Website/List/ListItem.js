@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "../Form/Button";
+import {Link} from "react-router-dom";
+import {isSuperUser} from "../User/User";
 
 class ListItem extends React.Component {
 
@@ -13,18 +14,29 @@ class ListItem extends React.Component {
             info1: props.info1,
             info2: props.info2,
             info3: props.info3,
+            href: props.href,
+            dataType: props.dataType,
         };
+    }
+
+    createLink = () => {
+        const href = "/backend/" + this.state.dataType + "/detail/?order=" + this.state.id;
+        return (
+            <Link to={href}
+                  className="text-sm hover:text-cyan-500 bg-gray-200 p-1.5 rounded-t-lg rounded-r-lg rounded-b-lg rounded-l-lg w-20 text-center"
+            >Details</Link>
+        )
     }
 
     render() {
         return (
-            <div className="mt-4 border m-3 border-gray-300 rounded-b-lg rounded-t-lg shadow-xl" key={this.state.key}>
+            <div className="mt-4 border m-3 border-white rounded-b-lg rounded-t-lg shadow-xl" key={this.state.key}>
                 <div className="">
-                    <div className="text-gray-400 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg">
+                    <div
+                        className="text-blue-700 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg border">
                         <div className="text-gray-400">{this.state.headlineCardHeader}</div>
                         <div className="">
-                            <Button
-                                label="Details"/>
+                            {(isSuperUser()) ? this.createLink() : null}
                         </div>
                     </div>
                     <div className="flex justify-between">
