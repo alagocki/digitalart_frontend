@@ -15,7 +15,7 @@ class ImageItem extends React.Component {
 
     render() {
         return (
-            <div className="border m-2 rounded-b-lg rounded-t-lg shadow-gray-300 shadow-xl w-96 border-white"
+            <div className="border m-3 rounded-b-lg rounded-t-lg shadow-gray-300 shadow-xl w-96 border-white"
                  key={this.state.id}>
                 <div className="h-80">
                     <div

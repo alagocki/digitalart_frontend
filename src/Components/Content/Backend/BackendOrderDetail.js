@@ -13,6 +13,11 @@ const BackendOrderDetail = () => {
     const [orderData, setOrder] = useState([]);
     const [imageData, setImages] = useState([]);
 
+    const euroPrice = new Intl.NumberFormat('de-DE', {
+        style: 'currency',
+        currency: 'EUR',
+    });
+
     const getOrderId = () => {
         const queryParameters = new URLSearchParams(window.location.search)
         return queryParameters.get("order")
@@ -39,6 +44,11 @@ const BackendOrderDetail = () => {
         }
     }
 
+    const getFormattedDate = () => {
+        const date = new Date(orderData.shooting_date);
+        return date.toLocaleDateString('de-DE')
+    }
+
     const fetchOrderData = () => {
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -57,7 +67,7 @@ const BackendOrderDetail = () => {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviBackendStandard type={'order'}/>}
+                    {<SubnaviBackendStandard type={'order'} sub={'detail'}/>}
 
                     <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                         Order Detail
@@ -70,18 +80,28 @@ const BackendOrderDetail = () => {
                                         className="text-blue-700 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg border">
                                         <div className="text-gray-400">Order {orderData.order_number}</div>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <div className="px-6 py-4">
-                                            <h3 className="text-3xl font-bold text-amber-950">
-                                                {orderData.lastname},<br/> {orderData.forename}
-                                            </h3>
-                                            <p className="text-gray-700 text-base">
-                                                {orderData.topic}<br/>
-                                                {orderData.info}<br/>
-                                                {orderData.shooting_date}<br/>
-                                            </p>
+                                    <div className="">
+                                        <div
+                                            className="px-6 py-4 flex justify-between border border-l-white border-t-white border-r-white border-dashed border-b-gray-300">
+                                            <div>
+                                                <h3 className="text-3xl font-bold text-amber-950">
+                                                    {orderData.lastname},<br/> {orderData.forename}
+                                                </h3>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-700 text-base">
+                                                    {orderData.topic}<br/>
+                                                    {orderData.info}<br/>
+                                                    {getFormattedDate()}<br/>
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p className="text-base text-amber-950">
+                                                    {euroPrice.format(orderData.price)}<br/> {orderData.condition}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="w-2/3 grid grid-cols-2 gap-2">
+                                        <div className="w-full grid md:grid-cols-3 md:gap-3 sm:grid-cols-1 sm:gap-1">
                                             {
                                                 imageData.map((data, key) => {
                                                     let elementList = '';

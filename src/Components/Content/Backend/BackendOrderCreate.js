@@ -12,6 +12,8 @@ import InputDropdown from "../../Website/Form/InputDropdown";
 import InputFile from "../../Website/Form/InputFile";
 import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
+import InputMoney from "../../Website/Form/InputMoney";
+import InputTextArea from "../../Website/Form/InputTextArea";
 
 class BackendOrderCreate extends React.Component {
 
@@ -21,6 +23,8 @@ class BackendOrderCreate extends React.Component {
             user: '',
             token: '',
             valueTopic: '',
+            valuePrice: '',
+            valueConditions: '',
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
@@ -88,8 +92,12 @@ class BackendOrderCreate extends React.Component {
                     shooting_date: this.state.valueShootingDate, //'2024-01-08 07:38:04.844915',
                     status: ('' !== this.state.valueStatus) ? this.state.valueStatus : 'offen',
                     customer_id: this.state.valueCustomer,
+                    price: Number(this.state.valuePrice),
+                    condition: this.state.valueConditions,
                     images: imageData
                 };
+
+                console.log(orderData);
 
                 axios.post(url, orderData, axiosConfig)
                     .then(
@@ -103,19 +111,21 @@ class BackendOrderCreate extends React.Component {
                                 valueStatus: '',
                                 valueCustomer: '',
                                 selectedFile: null,
+                                valuePrice: '',
+                                valueConditions: ''
                             }
                         )
                     )
                     .catch(error => {
                         console.error(error);
-                        let infoMessage = error.message;
-                        if (error.response.status === 422) {
-                            infoMessage = 'Incorrect Order (Status 422)';
-                        }
-                        if (error.response.status === 400) {
-                            infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                        }
-                        this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                        // let infoMessage = error.message;
+                        // if (error.response.status === 422) {
+                        //     infoMessage = 'Incorrect Order (Status 422)';
+                        // }
+                        // if (error.response.status === 400) {
+                        //     infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                        // }
+                        // this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                     });
 
             }, 1000);
@@ -178,40 +188,57 @@ class BackendOrderCreate extends React.Component {
                                     <div className="text-red-800">{this.state.boxinfo}</div> : this.state.boxinfo}
                                 </div>
                             </div>
-                            <div className="px-6 py-4">
-                                <InputText
-                                    id="valueTopic"
-                                    label="Topic"
-                                    onChange={this.handleFieldChange}
-                                    value={this.state.valueTopic}/>
-                                <InputText
-                                    id="valueInfo"
-                                    label="Info"
-                                    onChange={this.handleFieldChange}
-                                    value={this.state.valueInfo}/>
-                                <InputDropdown
-                                    id="valueCustomer"
-                                    label="Customer"
-                                    items={UserData}
-                                    onChange={this.handleFieldChange}
-                                    value={this.state.valueCustomer}/>
-                                <InputDropdown
-                                    id="valueStatus"
-                                    label="Status"
-                                    items={Status}
-                                    onChange={this.handleFieldChange}
-                                    value={this.state.valueStatus}/>
-                                <InputDatePicker
-                                    id="valueShootingDate"
-                                    label="Shooting Date"
-                                    value={this.state.valueShootingDate}
-                                    onChange={this.handleFieldChange}/>
-                                <InputFile
-                                    id="selectedFile"
-                                    label="Files"
-                                    customer="true"
-                                    onChange={this.handleFieldChangeFile}
-                                    value={this.state.selectedFile}/>
+                            <div className="flex justify-between">
+                                <div className="px-6 py-4 w-1/2">
+                                    <InputText
+                                        id="valueTopic"
+                                        label="Topic"
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueTopic}/>
+                                    <InputText
+                                        id="valueInfo"
+                                        label="Info"
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueInfo}/>
+                                    <InputMoney
+                                        id="valuePrice"
+                                        label="Price"
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valuePrice}/>
+                                    <InputTextArea
+                                        id="valueConditions"
+                                        label="Conditions"
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueConditions}/>
+                                </div>
+                                <div className="px-6 py-4 w-1/2">
+
+                                    <InputDropdown
+                                        id="valueCustomer"
+                                        label="Customer"
+                                        items={UserData}
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueCustomer}/>
+                                    <InputDropdown
+                                        id="valueStatus"
+                                        label="Status"
+                                        items={Status}
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueStatus}/>
+                                    <InputDatePicker
+                                        id="valueShootingDate"
+                                        label="Shooting Date"
+                                        value={this.state.valueShootingDate}
+                                        onChange={this.handleFieldChange}/>
+                                    <InputFile
+                                        id="selectedFile"
+                                        label="Files"
+                                        customer="true"
+                                        onChange={this.handleFieldChangeFile}
+                                        value={this.state.selectedFile}/>
+                                </div>
+                            </div>
+                            <div className="px-6 py-4 w-1/2">
                                 <Button
                                     label="Save"
                                     onClick={this.handleSubmit}
