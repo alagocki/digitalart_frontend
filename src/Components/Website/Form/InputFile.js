@@ -26,7 +26,7 @@ class InputText extends React.Component {
 
     componentDidMount() {
         this.setState({
-            countUpload: <li>Keine Datei ausgewählt</li>
+            countUpload: <li>No Files selected</li>
         });
     }
 

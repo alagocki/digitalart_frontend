@@ -61,9 +61,9 @@ const TopnaviBackend = () => {
                 <nav className="float-right bg-transparent md:items-center">
                     {getNavi()}
                 </nav>
-                <div className="flow-left text-left mt-4 ml-2 text-sm text-blue-400">
+                <div className="flow-left text-left mt-4 ml-2 text-sm ">
                     {getUser()['forename'] + ' ' + getUser()['lastname']}&nbsp;|&nbsp;
-                    <button className="hover:text-cyan-500"
+                    <button className="hover:text-cyan-500 text-blue-400"
                             onClick={signOut}>Logout
                     </button>
                 </div>
