@@ -1,5 +1,5 @@
 import React from "react";
-import Header_Pic from "../Images/upload.png";
+import UploadPic from "../Images/upload.png";
 
 class InputText extends React.Component {
 
@@ -53,7 +53,7 @@ class InputText extends React.Component {
                         className="flex justify-center border-blue-300 border-dashed border-l border-t border-r p-4 cursor-pointer"
                          onClick={() => this.fileInput.current.click()}>
                         <img className="w-1/12"
-                             src={Header_Pic}
+                             src={UploadPic}
                              alt="" loading=""/>
 
                     </div>

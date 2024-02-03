@@ -1,5 +1,5 @@
 import React from 'react';
-import Header_Pic from '../Images/header_backend.png';
+import UploadPic from '../Images/header_backend.png';
 import TopnaviBackend from "./TopnaviBackend";
 import {isTokenValid} from "../Auth";
 
@@ -12,7 +12,7 @@ const BackendHeader = () => {
             <h2 className="font-semibold tracking-tight text-center text-gray-700">
                 <picture>
                     <img className="inset-0 object-cover object-center"
-                         src={Header_Pic}
+                         src={UploadPic}
                          alt="" loading=""/>
                 </picture>
             </h2>

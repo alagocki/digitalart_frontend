@@ -3,7 +3,7 @@ import React from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import Button from "../../Website/Form/Button";
 import {Navigate} from 'react-router-dom';
-import {getAllUser, getUser} from "../../Website/User/User";
+import {getAllUser, getUser} from "../../Website/User/UserService";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
@@ -14,6 +14,7 @@ import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import InputMoney from "../../Website/Form/InputMoney";
 import InputTextArea from "../../Website/Form/InputTextArea";
+import {prepareImageData} from "../../Website/Order/OrderService";
 
 class BackendOrderCreate extends React.Component {
 
@@ -51,40 +52,18 @@ class BackendOrderCreate extends React.Component {
 
         try {
 
-            let token = fetchToken();
-
             let imageData = [];
             let url = api_url + 'order/create';
             let axiosConfig = {
                 headers: {
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + fetchToken()
                 }
             };
 
-            for (let i = 0; i < this.state.selectedFile.length; i++) {
-
-                const image = this.state.selectedFile[i];
-
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(image);
-
-                fileReader.onload = () => {
-                    imageData[i] = {
-                        name: image.name,
-                        description: 'Bild ' + i,
-                        status: 'unbearbeitet',
-                        ordered: false,
-                        base64encoded: fileReader.result
-                    }
-                };
-
-                fileReader.onerror = (error) => {
-                    console.log('Error: ', error);
-                };
-
-            }
+            imageData = prepareImageData(this.state.selectedFile);
 
             const timer = setTimeout(() => {
+                const img_cnt = imageData.length
                 const orderData = {
                     topic: this.state.valueTopic,
                     info: this.state.valueInfo,
@@ -94,42 +73,40 @@ class BackendOrderCreate extends React.Component {
                     customer_id: this.state.valueCustomer,
                     price: Number(this.state.valuePrice),
                     condition: this.state.valueConditions,
+                    images_cnt: img_cnt,
                     images: imageData
                 };
-
-                console.log(orderData);
 
                 axios.post(url, orderData, axiosConfig)
                     .then(
                         () => this.setState(
                             {
                                 boxinfo: 'Order ' + this.state.valueTopic + ' created',
-                                error: false,
-                                newUserCreated: true,
                                 valueTopic: '',
                                 valueInfo: '',
+                                valueShootingDate: '',
                                 valueStatus: '',
                                 valueCustomer: '',
-                                selectedFile: null,
                                 valuePrice: '',
-                                valueConditions: ''
+                                valueConditions: '',
+                                selectedFile: []
                             }
                         )
                     )
                     .catch(error => {
-                        console.error(error);
-                        // let infoMessage = error.message;
-                        // if (error.response.status === 422) {
-                        //     infoMessage = 'Incorrect Order (Status 422)';
-                        // }
-                        // if (error.response.status === 400) {
-                        //     infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                        // }
-                        // this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                        console.log(error)
+                        let infoMessage = error.message;
+                        if (error.response.status === 422) {
+                            infoMessage = 'Incorrect Order (Status 422)';
+                        }
+                        if (error.response.status === 400) {
+                            infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                        }
+                        this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                     });
-
             }, 1000);
             return () => clearTimeout(timer);
+
 
         } catch (error) {
             this.setState({info: error.message});

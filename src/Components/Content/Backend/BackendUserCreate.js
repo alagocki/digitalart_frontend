@@ -6,7 +6,7 @@ import InputEmail from "../../Website/Form/InputEmail";
 import InputPassword from "../../Website/Form/InputPassword";
 import Button from "../../Website/Form/Button";
 import {Navigate} from 'react-router-dom';
-import {getUser} from "../../Website/User/User";
+import {getUser} from "../../Website/User/UserService";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";

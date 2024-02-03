@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {isSuperUser} from "../User/User";
+import {isSuperUser} from "../User/UserService";
 import {getCurrentPath} from "./NaviHelper";
 import {Link} from "react-router-dom"
 
