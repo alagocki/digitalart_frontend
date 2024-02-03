@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {isSuperUser} from "../User/User";
+import {isSuperUser} from "../User/UserService";
 
 class ListItem extends React.Component {
 

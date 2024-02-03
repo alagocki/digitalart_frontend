@@ -1,5 +1,5 @@
 import React from 'react';
-import Header_Pic from './Images/header_8.png';
+import HeaderPic from './Images/header_8.png';
 import Topnavi from './Topnavi';
 
 const Header = () => {
@@ -11,7 +11,7 @@ const Header = () => {
                     {<Topnavi />}
                     <picture>
                         <img className="absolute h-full inset-0 object-cover w-full object-center"
-                             src={Header_Pic}
+                             src={HeaderPic}
                              alt="" loading=""/>
                     </picture>
                 </div>

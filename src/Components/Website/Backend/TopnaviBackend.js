@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router";
 import {removeToken} from "../Auth";
-import {removeUser, isSuperUser, getUser} from "../User/User";
+import {removeUser, isSuperUser, getUser} from "../User/UserService";
 import {getCurrentPath} from "./NaviHelper";
 
 const TopnaviBackend = () => {
