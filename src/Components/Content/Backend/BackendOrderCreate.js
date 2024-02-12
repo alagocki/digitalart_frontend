@@ -14,7 +14,7 @@ import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import InputMoney from "../../Website/Form/InputMoney";
 import InputTextArea from "../../Website/Form/InputTextArea";
-import {orderDataForApi, prepareImageDataNew} from "../../Website/Order/OrderUtils";
+import OrderUtils from "../../Website/Order/OrderUtils";
 
 class BackendOrderCreate extends React.Component {
 
@@ -63,11 +63,11 @@ class BackendOrderCreate extends React.Component {
                 }
             };
 
-            imageData = prepareImageDataNew(this.state.selectedFile);
+            imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
 
             const timer = setTimeout(() => {
 
-                const orderData = orderDataForApi(this.state, 'insert', imageData);
+                const orderData = OrderUtils.orderDataForApi(this.state, 'insert', imageData);
 
                 if (null !== orderData) {
                     axios.post(url, orderData, axiosConfig)

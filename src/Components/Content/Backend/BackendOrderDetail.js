@@ -12,12 +12,7 @@ import InputFile from "../../Website/Form/InputFile";
 import Button from "../../Website/Form/Button";
 import {Navigate} from "react-router-dom";
 import {isSuperUser} from "../../Website/User/UserService";
-import {
-    getOrderById, getOrderedImages,
-    orderDataForApi,
-    prepareImageDataNew,
-    prepareImageDataStock
-} from "../../Website/Order/OrderUtils";
+import OrderUtils from "../../Website/Order/OrderUtils";
 
 class BackendOrderDetail extends React.Component {
 
@@ -126,9 +121,9 @@ class BackendOrderDetail extends React.Component {
 
             imageData = this.state.imageData;
             if (this.state.selectedFile.length > 0) {
-                imageData = prepareImageDataNew(this.state.selectedFile);
+                imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
             } else {
-                imageData = prepareImageDataStock(this.state.imageData);
+                imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
             }
 
 
@@ -137,7 +132,7 @@ class BackendOrderDetail extends React.Component {
 
             const timer = setTimeout(() => {
 
-                const orderDataUpdate = orderDataForApi(this.state, 'update', imageData);
+                const orderDataUpdate = OrderUtils.orderDataForApi(this.state, 'update', imageData);
 
                 axios.post(url, orderDataUpdate, axiosConfig)
                     .then(
@@ -301,7 +296,7 @@ class BackendOrderDetail extends React.Component {
     };
 
     componentDidMount() {
-        getOrderById(this.getOrderId()).then(r => {
+        OrderUtils.getOrderById(this.getOrderId()).then(r => {
             this.setState({
                 orderData: r.order[0],
                 imageData: r.order[1],
@@ -309,7 +304,7 @@ class BackendOrderDetail extends React.Component {
             })
 
             this.setState({
-                selectedImagesCustomer: getOrderedImages(this.state.imageData)
+                selectedImagesCustomer: OrderUtils.getOrderedImages(this.state.imageData)
             })
         })
     }
