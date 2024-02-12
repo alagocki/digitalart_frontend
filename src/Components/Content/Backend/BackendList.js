@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import {getAllUser, prepareDataUser} from "../../Website/User/UserService";
 import ListItem from "../../Website/List/ListItem";
-import {getAllOrder, prepareDataOrder} from "../../Website/Order/OrderUtils";
+import OrderUtils from "../../Website/Order/OrderUtils";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
 
@@ -20,11 +20,11 @@ const BackendUserList = (props) => {
 
         const funcs = {
             user: getAllUser,
-            order: getAllOrder,
+            order: OrderUtils.getAllOrder,
         };
         const funcsPrepare = {
             user: prepareDataUser,
-            order: prepareDataOrder,
+            order: OrderUtils.prepareDataOrder,
         };
 
 
