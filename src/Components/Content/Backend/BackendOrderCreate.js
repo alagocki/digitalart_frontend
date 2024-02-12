@@ -14,7 +14,7 @@ import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import InputMoney from "../../Website/Form/InputMoney";
 import InputTextArea from "../../Website/Form/InputTextArea";
-import {orderDataForApi, prepareImageDataNew} from "../../Website/Order/OrderService";
+import {orderDataForApi, prepareImageDataNew} from "../../Website/Order/OrderUtils";
 
 class BackendOrderCreate extends React.Component {
 
