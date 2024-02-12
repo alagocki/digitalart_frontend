@@ -42,8 +42,11 @@ class ListItem extends React.Component {
                     <div className="flex justify-between">
                         <div className="px-6 py-4">
                             <h3 className="text-3xl font-bold text-amber-950">
-                                {this.state.headline1},<br/> {this.state.headline2}
+                                {this.state.headline1}
                             </h3>
+                            <div className="text-md font-bold text-amber-950">
+                                {this.state.headline2}
+                            </div>
                         </div>
                         <div className="text-gray-700 text-base px-6 py-4 w-1/2">
                             {this.state.info1}<br/>

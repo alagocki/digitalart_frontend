@@ -2,9 +2,16 @@ import {url as api_url} from "../Constants";
 import {fetchToken} from "../Auth";
 import axios from "axios";
 
+
 function errorHandler(error) {
-    console.error(error);
-    throw new Error('ERROR: ' + error);
+
+
+    if ("ERR_BAD_REQUEST" === error.code) {
+        window.location.href = '/login';
+    } else {
+        console.log('Error: ', error);
+    }
+
 }
 
 export const getAllOrder = () => {
@@ -34,7 +41,7 @@ const getAllOrderFromApi = async () => {
 
         return response;
     } catch (error) {
-        throw new Error(error);
+        errorHandler(error);
     }
 }
 
@@ -63,7 +70,7 @@ const getOrderFromApiById = async (id) => {
         return response;
 
     } catch (error) {
-        throw new Error(error);
+        errorHandler(error);
     }
 
 }
@@ -90,31 +97,80 @@ export const prepareDataOrder = (res) => {
     return preparedlistData;
 }
 
-export const prepareImageData = (images) => {
-
+export const prepareImageDataNew = (images) => {
     let imageData = [];
     for (let i = 0; i < images.length; i++) {
-
         const image = images[i];
-
         const fileReader = new FileReader();
         fileReader.readAsDataURL(image);
-
         fileReader.onload = () => {
             imageData[i] = {
                 name: image.name,
                 description: 'Bild ' + i,
                 status: 'unbearbeitet',
                 ordered: false,
-                base64encoded: fileReader.result
+                base64encoded: fileReader.result,
+                blocked: false
             }
         };
-
         fileReader.onerror = (error) => {
             console.log('Error: ', error);
         };
-
     }
-
     return imageData
+}
+
+export const prepareImageDataStock = (images) => {
+    let imageData = [];
+    for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        imageData[i] = {
+            name: image[0].name,
+            description: image[0].description,
+            status: image[0].status,
+            ordered: image[0].ordered,
+            base64encoded: image[0].base64encoded,
+            blocked: image[0].blocked
+        }
+    }
+    return imageData
+}
+
+export const orderDataForApi = (state, type, imageData) => {
+    try {
+        const img_cnt = imageData.length
+        return {
+            topic: ('insert' === type) ? state.valueTopic : '-',
+            info: ('insert' === type) ? state.valueInfo : '-',
+            order_number: ('insert' === type) ? Math.floor(Math.random() * 100000) : 99999,
+            shooting_date: ('insert' === type) ? state.valueShootingDate : state.orderData.shooting_date, //'2024-01-08 07:38:04.844915',
+            status: ('insert' === type) ? ('' !== state.valueStatus) ? state.valueStatus : 'offen' : 'offen',
+            customer_id: ('insert' === type) ? state.valueCustomer : '-',
+            basic_price: ('insert' === type) ? Number(state.valuePrice) : 0,
+            additional_pic_price: ('insert' === type) ? Number(state.valueAddPicPrice) : 0,
+            condition: ('insert' === type) ? state.valueConditions : '-',
+            images_cnt: img_cnt,
+            include_media: ('insert' === type) ? state.valueIncludeMedia : 0,
+            selected_images_by_customer: (state.selectedImagesCustomer) ? state.selectedImagesCustomer : 0,
+            images: imageData
+        };
+    } catch (error) {
+        errorHandler(error);
+        return null;
+    }
+}
+
+export const getOrderedImages = (imageData) => {
+    let orderedImages = 0;
+    // eslint-disable-next-line array-callback-return
+    imageData.map((data, key) => {
+        // eslint-disable-next-line array-callback-return
+        Object.keys(data).map(() => {
+            if (data[0].ordered === true) {
+                orderedImages += 1;
+            }
+        });
+    })
+
+    return orderedImages;
 }

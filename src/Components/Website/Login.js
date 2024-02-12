@@ -105,11 +105,17 @@ const Login = () => {
                                     onClick={get_token}
                             >Anmelden
                             </button>
-                            <p className="text-sm font-light text-gray-500">
-                                Don’t have an account yet? <a href="/register"
-                                                              className="font-medium text-primary-600 hover:underline">Sign
-                                up</a>
-                            </p>
+                            <div className="flex justify-between">
+                                <p className="text-sm font-light text-gray-500">
+                                    Don’t have an account yet? <a href="/register"
+                                                                  className="font-medium text-primary-600 hover:underline">Sign
+                                    up</a>
+
+                                </p>
+                                <p className="text-sm font-light text-gray-500">
+                                    <a href="/" className="font-medium text-primary-600 hover:underline">Home</a>
+                                </p>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -7,12 +7,17 @@ import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
 import ImageItem from "../../Website/List/ImageItem";
 import {Accordion, AccordionHeader, AccordionBody,} from "@material-tailwind/react";
-import UploadPic from "../../Website/Images/upload.png";
+import UploadPic from "../../Website/Images/plus.png";
 import InputFile from "../../Website/Form/InputFile";
 import Button from "../../Website/Form/Button";
 import {Navigate} from "react-router-dom";
 import {isSuperUser} from "../../Website/User/UserService";
-import {getOrderById, prepareImageData} from "../../Website/Order/OrderService";
+import {
+    getOrderById, getOrderedImages,
+    orderDataForApi,
+    prepareImageDataNew,
+    prepareImageDataStock
+} from "../../Website/Order/OrderUtils";
 
 class BackendOrderDetail extends React.Component {
 
@@ -24,7 +29,43 @@ class BackendOrderDetail extends React.Component {
             selectedFile: [],
             error: false,
             boxinfo: '',
+            selectedImagesCustomer: 0,
+            selectedId: 0,
+            cntOrderedImages: 0,
         };
+    }
+
+    updateSelectedImagesCustomer = (type, id) => {
+        let cnt = 0;
+        let setOrdered = false;
+        if (type === 'plus') {
+            cnt = this.state.selectedImagesCustomer + 1;
+            this.setState(
+                {
+                    selectedImagesCustomer: cnt
+                }
+            );
+            setOrdered = true;
+        } else {
+            cnt = this.state.selectedImagesCustomer - 1;
+            this.setState(
+                {
+                    selectedImagesCustomer: cnt
+                }
+            );
+        }
+
+        // eslint-disable-next-line array-callback-return
+        this.state.imageData.map((data, key) => {
+            Object.keys(data).map(() => {
+                if (data[0].id === id) {
+                    data[0].ordered = setOrdered;
+                }
+                return data;
+            });
+        });
+
+        return cnt;
     }
 
     handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
@@ -43,8 +84,6 @@ class BackendOrderDetail extends React.Component {
         return queryParameters.get("order")
     }
 
-    // this.getOrderId()
-
     getFormattedDate = () => {
         const date = new Date(this.state.orderData.shooting_date);
         return date.toLocaleDateString('de-DE')
@@ -60,36 +99,45 @@ class BackendOrderDetail extends React.Component {
         window.location.reload(false)
     }
 
+    getTotapPrice = () => {
+        let total = 0;
+        let additionalPic = 0;
+        if (this.state.selectedImagesCustomer > this.state.orderData.include_media) {
+            additionalPic = this.state.selectedImagesCustomer - this.state.orderData.include_media;
+        }
+        total = this.state.orderData.basic_price + (additionalPic * this.state.orderData.additional_pic_price);
+        return total;
+    }
+
+
+
     handleSubmit = () => {
 
         try {
 
             let imageData = [];
             const orderId = this.getOrderId();
-            const url = api_url + 'order/images/' + orderId;
+            const url = api_url + 'order/update/' + orderId;
             const axiosConfig = {
                 headers: {
                     'Authorization': 'Bearer ' + fetchToken()
                 }
             };
 
-            imageData = prepareImageData(this.state.selectedFile);
+            imageData = this.state.imageData;
+            if (this.state.selectedFile.length > 0) {
+                imageData = prepareImageDataNew(this.state.selectedFile);
+            } else {
+                imageData = prepareImageDataStock(this.state.imageData);
+            }
+
+
+            console.log(imageData);
+
 
             const timer = setTimeout(() => {
 
-                const img_cnt = imageData.length
-                const orderDataUpdate = {
-                    topic: '-', //this.state.orderData.topic,
-                    info: '-', //this.state.orderData.info
-                    order_number: 99999,
-                    shooting_date: this.state.orderData.shooting_date,
-                    status: 'offen',
-                    customer_id: '-', //this.state.orderData.customer_id
-                    price: 0, //this.state.orderData.price
-                    condition: '-', //this.state.orderData.condition
-                    images_cnt: img_cnt,
-                    images: imageData
-                };
+                const orderDataUpdate = orderDataForApi(this.state, 'update', imageData);
 
                 axios.post(url, orderDataUpdate, axiosConfig)
                     .then(
@@ -144,24 +192,62 @@ class BackendOrderDetail extends React.Component {
                                                 <h3 className="text-3xl font-bold text-amber-950">
                                                     {this.state.orderData.lastname},<br/> {this.state.orderData.forename}
                                                 </h3>
+                                                <div className="w-full mt-14 text-xs">
+                                                    <Button
+                                                        label="Update Order"
+                                                        onClick={this.handleSubmit}
+                                                    />
+                                                </div>
                                             </div>
                                             <div>
                                                 <p className="text-gray-700 text-base">
                                                     {this.state.orderData.topic}<br/>
                                                     {this.state.orderData.info}<br/>
                                                     {this.getFormattedDate()}<br/>
+                                                    {this.state.orderData.condition}
                                                 </p>
                                             </div>
-                                            <div>
-                                                <p className="text-base text-amber-950">
-                                                    {this.euroPrice.format(this.state.orderData.price)}<br/> {this.state.orderData.condition}
-                                                </p>
+                                            <div className="w-1/3">
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4">{this.euroPrice.format(this.state.orderData.basic_price)}</td>
+                                                        <td>basic Price</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4">{this.euroPrice.format(this.state.orderData.additional_pic_price)}</td>
+                                                        <td>each additional image</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4 text-gray-500">{this.state.orderData.include_media}</td>
+                                                        <td className="text-gray-500">images included</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4 border-b border-amber-950 text-gray-500">{this.state.selectedImagesCustomer}</td>
+                                                        <td className="border-b border-amber-950 text-gray-500">selected
+                                                            images
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4 border-b border-amber-950">
+                                                            {(this.state.selectedImagesCustomer > this.state.orderData.include_media) ?
+                                                                (this.state.selectedImagesCustomer - this.state.orderData.include_media) : 0}</td>
+                                                        <td className="border-b border-amber-950">images to be
+                                                            calc.
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="w-1/2 text-right pr-4">{this.euroPrice.format(this.getTotapPrice())}</td>
+                                                        <td>total price</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                         <div className="px-6">
                                             <Accordion open={this.state.open === 1}>
                                                 <AccordionHeader onClick={() => this.handleOpen(1)} className="flex">
-                                                    <div className="w-full flex justify-end">
+                                                    <div className="w-full flex justify-end text-xs/[10px]">
                                                         <img className="w-10"
                                                              src={UploadPic}
                                                              alt="" loading=""/>
@@ -174,10 +260,6 @@ class BackendOrderDetail extends React.Component {
                                                         customer="true"
                                                         onChange={this.handleFieldChangeFile}
                                                         value={this.state.selectedFile}/>
-                                                    <Button
-                                                        label="Save"
-                                                        onClick={this.handleSubmit}
-                                                    />
                                                 </AccordionBody>
                                             </Accordion>
                                         </div>
@@ -191,10 +273,16 @@ class BackendOrderDetail extends React.Component {
                                                             id={data[0].id}
                                                             key={key}
                                                             image={data[0]}
+                                                            selectedImagesCustomer={this.state.selectedImagesCustomer}
+                                                            orderId={this.getOrderId()}
+                                                            ordered={data[0].ordered}
+                                                            onChangePlus={() => this.updateSelectedImagesCustomer('plus', data[0].id)}
+                                                            onChangeMinus={() => this.updateSelectedImagesCustomer('minus', data[0].id)}
                                                         />
                                                     });
                                                     return elementList;
-                                                })}
+                                                })
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -218,6 +306,10 @@ class BackendOrderDetail extends React.Component {
                 orderData: r.order[0],
                 imageData: r.order[1],
                 boxinfo: 'Order ' + this.state.orderData.order_number
+            })
+
+            this.setState({
+                selectedImagesCustomer: getOrderedImages(this.state.imageData)
             })
         })
     }
