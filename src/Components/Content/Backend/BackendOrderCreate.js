@@ -14,7 +14,7 @@ import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import InputMoney from "../../Website/Form/InputMoney";
 import InputTextArea from "../../Website/Form/InputTextArea";
-import {prepareImageData} from "../../Website/Order/OrderService";
+import {orderDataForApi, prepareImageDataNew} from "../../Website/Order/OrderService";
 
 class BackendOrderCreate extends React.Component {
 
@@ -25,17 +25,20 @@ class BackendOrderCreate extends React.Component {
             token: '',
             valueTopic: '',
             valuePrice: '',
+            valueAddPicPrice: '',
             valueConditions: '',
             valueInfo: '',
             valueStatus: '',
             valueCustomer: '',
             valueShootingDate: '',
+            valueIncludeMedia: '',
             selectedFile: [],
             error: false,
             boxinfo: '',
             newOrderCreated: false,
             preparedUserData: '',
         };
+
     }
 
     handleFieldChange = (inputFieldId, inputFieldValue) => {
@@ -60,50 +63,43 @@ class BackendOrderCreate extends React.Component {
                 }
             };
 
-            imageData = prepareImageData(this.state.selectedFile);
+            imageData = prepareImageDataNew(this.state.selectedFile);
 
             const timer = setTimeout(() => {
-                const img_cnt = imageData.length
-                const orderData = {
-                    topic: this.state.valueTopic,
-                    info: this.state.valueInfo,
-                    order_number: Math.floor(Math.random() * 100000),
-                    shooting_date: this.state.valueShootingDate, //'2024-01-08 07:38:04.844915',
-                    status: ('' !== this.state.valueStatus) ? this.state.valueStatus : 'offen',
-                    customer_id: this.state.valueCustomer,
-                    price: Number(this.state.valuePrice),
-                    condition: this.state.valueConditions,
-                    images_cnt: img_cnt,
-                    images: imageData
-                };
 
-                axios.post(url, orderData, axiosConfig)
-                    .then(
-                        () => this.setState(
-                            {
-                                boxinfo: 'Order ' + this.state.valueTopic + ' created',
-                                valueTopic: '',
-                                valueInfo: '',
-                                valueShootingDate: '',
-                                valueStatus: '',
-                                valueCustomer: '',
-                                valuePrice: '',
-                                valueConditions: '',
-                                selectedFile: []
-                            }
+                const orderData = orderDataForApi(this.state, 'insert', imageData);
+
+                if (null !== orderData) {
+                    axios.post(url, orderData, axiosConfig)
+                        .then(
+                            () => this.setState(
+                                {
+                                    boxinfo: 'Order ' + this.state.valueTopic + ' created',
+                                    valueTopic: '',
+                                    valueInfo: '',
+                                    valueShootingDate: '',
+                                    valueStatus: '',
+                                    valueCustomer: '',
+                                    valuePrice: '',
+                                    valueAddPicPrice: '',
+                                    valueConditions: '',
+                                    valueIncludeMedia: '',
+                                    selectedFile: []
+                                }
+                            )
                         )
-                    )
-                    .catch(error => {
-                        console.log(error)
-                        let infoMessage = error.message;
-                        if (error.response.status === 422) {
-                            infoMessage = 'Incorrect Order (Status 422)';
-                        }
-                        if (error.response.status === 400) {
-                            infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
-                        }
-                        this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
-                    });
+                        .catch(error => {
+                            console.log(error)
+                            let infoMessage = error.message;
+                            if (error.response.status === 422) {
+                                infoMessage = 'Incorrect Order (Status 422)';
+                            }
+                            if (error.response.status === 400) {
+                                infoMessage = 'Order ' + this.state.valueTopic + ' already exists';
+                            }
+                            this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
+                        });
+                }
             }, 1000);
             return () => clearTimeout(timer);
 
@@ -132,6 +128,14 @@ class BackendOrderCreate extends React.Component {
         return items;
     }
 
+    getOptionValues = () => {
+        const items = [];
+        for (let i = 1; i < 6; i++) {
+            items.push({[i]: i});
+        }
+        return items;
+    }
+
 
     getBackendOrderCreate = () => {
 
@@ -145,6 +149,10 @@ class BackendOrderCreate extends React.Component {
                 {"erledigt": "Done"},
                 {"in_klaerung": "Clarification"}
             ]
+        };
+
+        const includeMedia = {
+            items: this.getOptionValues()
         };
 
         return (
@@ -182,14 +190,24 @@ class BackendOrderCreate extends React.Component {
                                         label="Price"
                                         onChange={this.handleFieldChange}
                                         value={this.state.valuePrice}/>
+                                    <InputMoney
+                                        id="valueAddPicPrice"
+                                        label="Price Additional Pic"
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueAddPicPrice}/>
                                     <InputTextArea
                                         id="valueConditions"
                                         label="Conditions"
                                         onChange={this.handleFieldChange}
                                         value={this.state.valueConditions}/>
+                                    <InputDropdown
+                                        id="valueIncludeMedia"
+                                        label="Quantity incl. media"
+                                        items={includeMedia}
+                                        onChange={this.handleFieldChange}
+                                        value={this.state.valueIncludeMedia}/>
                                 </div>
                                 <div className="px-6 py-4 w-1/2">
-
                                     <InputDropdown
                                         id="valueCustomer"
                                         label="Customer"
