@@ -51,7 +51,37 @@ class OrderUtils {
         }
     }
 
+    static getOrderByUserId = (id) => {
+        try {
+            return this.getOrderFromApiByUserId(id);
+        } catch (error) {
+            this.errorHandler(error);
+        }
+    }
+
     static getOrderFromApiById = async (id) => {
+
+        let token = fetchToken();
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        };
+
+        try {
+            const url = api_url + 'order/' + id;
+            const {data: response} = await axios.get(url, options);
+            return response;
+
+        } catch (error) {
+            this.errorHandler(error);
+        }
+
+    }
+
+    static getOrderFromApiByUserId = async (id) => {
 
         let token = fetchToken();
         let options = {
@@ -162,7 +192,7 @@ class OrderUtils {
     static getOrderedImages = (imageData) => {
         let orderedImages = 0;
         // eslint-disable-next-line array-callback-return
-        imageData.map((data, key) => {
+        imageData.map((data) => {
             // eslint-disable-next-line array-callback-return
             Object.keys(data).map(() => {
                 if (data[0].ordered === true) {
