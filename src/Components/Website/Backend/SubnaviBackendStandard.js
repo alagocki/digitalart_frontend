@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {isSuperUser} from "../User/UserService";
+import UserUtils from "../User/UserUtils";
 import {getCurrentPath} from "./NaviHelper";
 import {Link} from "react-router-dom"
 
@@ -27,7 +27,7 @@ const SubnaviBackendStandard = (props) => {
                 <div className="flex justify-end">
                     <nav className="bg-transparent md:flex md:items-center flex md:justify-between">
                         <ul className="md:flex md:items-center z-[-1] md:z-auto md:static absolute w-full left-0 md:w-auto md:py-0 py-0 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-500">
-                            {(isSuperUser()) ?
+                            {(UserUtils.isSuperUser()) ?
                                 <li className={(getCurrentPath().includes(dataType + '/create')) ? "md:my-0 p-0 ml-0.5 flex text-blue-500 font-medium" : "md:my-0 p-0 ml-0.5 flex"}>
                                     {createLink({string: "create"})}
                                 </li> : null}

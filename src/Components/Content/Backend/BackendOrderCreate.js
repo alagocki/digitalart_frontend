@@ -3,7 +3,7 @@ import React from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import Button from "../../Website/Form/Button";
 import {Navigate} from 'react-router-dom';
-import {getAllUser, getUser} from "../../Website/User/UserService";
+import UserUtils from "../../Website/User/UserUtils";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
@@ -112,7 +112,7 @@ class BackendOrderCreate extends React.Component {
 
     prepareUserData = () => {
         const items = [];
-        const customerData = getAllUser()
+        const customerData = UserUtils.getAllUser()
 
         customerData
             .then((data) => data)
@@ -249,7 +249,7 @@ class BackendOrderCreate extends React.Component {
 
     componentDidMount() {
         this.setState({
-            user: getUser(),
+            user: UserUtils.getUser(),
             token: fetchToken(),
             boxinfo: '+'
         });
@@ -259,7 +259,7 @@ class BackendOrderCreate extends React.Component {
 
         return (
             <div>
-                {this.state.user.is_superuser === false ? <Navigate to="/backend"/> : this.getBackendOrderCreate()}
+                {UserUtils.isSuperUser() === false ? <Navigate to="/backend"/> : this.getBackendOrderCreate()}
             </div>
         );
     }

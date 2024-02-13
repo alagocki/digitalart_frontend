@@ -3,7 +3,7 @@ import React from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import Button from "../../Website/Form/Button";
 import {Navigate, useParams} from 'react-router-dom';
-import {getUser} from "../../Website/User/UserService";
+import UserUtils from "../../Website/User/UserUtils";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
@@ -175,7 +175,7 @@ class BackendUserAdress extends React.Component {
 
     componentDidMount() {
         this.setState({
-            user: getUser(),
+            user: UserUtils.getUser(),
             token: fetchToken(),
             boxinfo: '+'
         });
