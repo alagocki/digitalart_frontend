@@ -73,6 +73,7 @@ class OrderUtils {
 
     }
 
+    /** TODO check image_cnt in list after update in order detail. */
     static prepareDataOrder = (res) => {
         let preparedlistData = [];
         // eslint-disable-next-line array-callback-return
@@ -87,7 +88,7 @@ class OrderUtils {
                     headline1: data[key]['lastname'] + ', ' + data[key]['forename'],
                     info1: data[key]['info'],
                     info2: data[key]['status'],
-                    info3: (data[key]['images_cnt'] > 0) ? data[key]['images_cnt'] + ' Media Files created' : '',
+                    info3: (data[key]['images_cnt'] > 0) ? data[key]['images_cnt'] + ' Media Files' : '',
                 }
                 preparedlistData.push(pld);
             });
