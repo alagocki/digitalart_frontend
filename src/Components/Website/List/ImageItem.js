@@ -62,8 +62,7 @@ class ImageItem extends React.Component {
         };
 
         axios.delete(url, axiosConfig)
-            .then((response) => {
-                response = null;
+            .then(() => {
                 this.reload();
             })
             .catch((error) => {
