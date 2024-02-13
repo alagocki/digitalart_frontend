@@ -8,8 +8,8 @@ import Login from "./Components/Website/Login";
 import BackendUserCreate from "./Components/Content/Backend/BackendUserCreate";
 import BackendUserAddress from "./Components/Content/Backend/BackendUserAddress";
 import BackendOrderCreate from "./Components/Content/Backend/BackendOrderCreate";
-import BackendList from "./Components/Content/Backend/BackendList";
 import BackendOrderDetail from "./Components/Content/Backend/BackendOrderDetail";
+import BackendListSwitch from "./Components/Content/Backend/BackendListSwitch";
 
 const App = () => {
     return (
@@ -36,14 +36,14 @@ const App = () => {
                     }/>
                     <Route path="/backend/user/list" element={
                         <RequireToken>
-                            <BackendList type={'user'}/>
+                            <BackendListSwitch type={'user'}/>
                         </RequireToken>
                     }/>
-                    <Route path="/backend/order/list" element={
-                        <RequireToken>
-                            <BackendList type={'order'}/>
-                        </RequireToken>
-                    }/>
+                    {/*<Route path="/backend/order/list" element={*/}
+                    {/*    <RequireToken>*/}
+                    {/*        <BackendListSwitch type={'order'}/>*/}
+                    {/*    </RequireToken>*/}
+                    {/*}/>*/}
                     <Route path="/backend/order/detail" element={
                         <RequireToken>
                             <BackendOrderDetail/>

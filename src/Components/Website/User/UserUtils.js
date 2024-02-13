@@ -13,6 +13,14 @@ class UserUtils {
         localStorage.setItem('user', JSON.stringify(user.data))
     }
 
+    static getUserById = (id) => {
+        try {
+            return this.getUserFromApiById(id);
+        } catch (error) {
+            this.errorHandler(error);
+        }
+    }
+
     static getAllUser = () => {
         try {
             return this.getAllUserFromApi();
@@ -50,6 +58,30 @@ class UserUtils {
         }
     }
 
+    static getUserFromApiById = async (id) => {
+
+        let url = api_url + 'users/' + id;
+        let token = fetchToken();
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        };
+
+        try {
+            // use data destructuring to get data from the promise object
+            const {data: response} = await axios.get(url, options);
+
+            console.log(response);
+
+            return response; // <- promise
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
     static getAllUserFromApi = async () => {
         let url = api_url + 'user/all';
         let token = fetchToken();
@@ -72,6 +104,18 @@ class UserUtils {
     static isSuperUser = () => {
         const user = this.getUser();
         return user.is_superuser === true;
+    }
+
+    static prepareDataSingleUser = (res) => {
+        return {
+            id: res['id'],
+            headlineCardHeader: res['email'],
+            headline2: res['forename'],
+            headline1: res['lastname'],
+            info1: res['street'] + ' ' + res['number'],
+            info2: res['zip'] + ' ' + res['city'],
+            info3: ''
+        };
     }
 
     static prepareDataUser = (res) => {
