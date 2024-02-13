@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router";
 import {removeToken} from "../Auth";
-import {removeUser, isSuperUser, getUser} from "../User/UserService";
+import UserUtils from "../User/UserUtils";
 import {getCurrentPath} from "./NaviHelper";
 
 const TopnaviBackend = () => {
@@ -10,14 +10,14 @@ const TopnaviBackend = () => {
 
     const signOut = () => {
         removeToken();
-        removeUser();
+        UserUtils.removeUser();
         navigate("/");
     }
 
     const getNavi = () => {
         let navi;
 
-        if (isSuperUser() === true) {
+        if (UserUtils.isSuperUser() === true) {
             navi = (
                 <ul className="md:flex md:items-center z-[-1] md:z-auto md:static absolute w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-500">
                     <li className="md:my-0 p-2 mr-1">
@@ -62,7 +62,7 @@ const TopnaviBackend = () => {
                     {getNavi()}
                 </nav>
                 <div className="flow-left text-left mt-4 ml-2 text-sm ">
-                    {getUser()['forename'] + ' ' + getUser()['lastname']}&nbsp;|&nbsp;
+                    {UserUtils.getUser()['forename'] + ' ' + UserUtils.getUser()['lastname']}&nbsp;|&nbsp;
                     <button className="hover:text-cyan-500 text-blue-400"
                             onClick={signOut}>Logout
                     </button>

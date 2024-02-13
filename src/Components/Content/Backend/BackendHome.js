@@ -1,9 +1,9 @@
-import React, {useEffect, useState, Component} from 'react';
-import {getUser} from "../../Website/User/UserService";
+import React from 'react';
+import UserUtils from "../../Website/User/UserUtils";
 
 const BackendHome = () => {
 
-    const user = getUser();
+    const user = UserUtils.getUser();
 
     return (
         <section>

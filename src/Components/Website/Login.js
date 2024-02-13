@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import Header_Pic from './Images/header_backend.png';
 import {url as api_url} from ".//Constants";
-import {setUser} from "./User/UserService";
+import UserUtils from "./User/UserUtils";
 
 const Login = () => {
     // const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Login = () => {
                 const response = await axios(options);
                 if (response.data.access_token) {
                     setToken(response.data.access_token);
-                    await setUser()
+                    await UserUtils.setUser()
 
                     const timer = setTimeout(() => {
                         navigate("/backend");

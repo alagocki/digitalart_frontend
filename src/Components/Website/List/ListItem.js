@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {isSuperUser} from "../User/UserService";
+import UserUtils from "../User/UserUtils";
 
 class ListItem extends React.Component {
 
@@ -36,7 +36,7 @@ class ListItem extends React.Component {
                         className="text-blue-700 text-xl mb-2 bg-gray-300 px-6 py-4 flex justify-between rounded-t-lg border">
                         <div className="text-gray-400">{this.state.headlineCardHeader}</div>
                         <div className="">
-                            {(isSuperUser()) ? this.createLink() : null}
+                            {(UserUtils.isSuperUser()) ? this.createLink() : null}
                         </div>
                     </div>
                     <div className="flex justify-between">

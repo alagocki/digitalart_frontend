@@ -11,7 +11,7 @@ import UploadPic from "../../Website/Images/plus.png";
 import InputFile from "../../Website/Form/InputFile";
 import Button from "../../Website/Form/Button";
 import {Navigate} from "react-router-dom";
-import {isSuperUser} from "../../Website/User/UserService";
+import UserUtils from "../../Website/User/UserUtils";
 import OrderUtils from "../../Website/Order/OrderUtils";
 
 class BackendOrderDetail extends React.Component {
@@ -31,7 +31,7 @@ class BackendOrderDetail extends React.Component {
     }
 
     updateSelectedImagesCustomer = (type, id) => {
-        let cnt = 0;
+        let cnt;
         let setOrdered = false;
         if (type === 'plus') {
             cnt = this.state.selectedImagesCustomer + 1;
@@ -51,7 +51,7 @@ class BackendOrderDetail extends React.Component {
         }
 
         // eslint-disable-next-line array-callback-return
-        this.state.imageData.map((data, key) => {
+        this.state.imageData.map((data) => {
             Object.keys(data).map(() => {
                 if (data[0].id === id) {
                     data[0].ordered = setOrdered;
@@ -95,7 +95,7 @@ class BackendOrderDetail extends React.Component {
     }
 
     getTotapPrice = () => {
-        let total = 0;
+        let total;
         let additionalPic = 0;
         if (this.state.selectedImagesCustomer > this.state.orderData.include_media) {
             additionalPic = this.state.selectedImagesCustomer - this.state.orderData.include_media;
@@ -313,7 +313,7 @@ class BackendOrderDetail extends React.Component {
 
         return (
             <div>
-                {isSuperUser() === false ? <Navigate to="/backend"/> : this.fetchOrderData()}
+                {UserUtils.isSuperUser() === false ? <Navigate to="/backend"/> : this.fetchOrderData()}
             </div>
         );
     }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import BackendHeader from "../../Website/Backend/BackendHeader";
-import {getAllUser, prepareDataUser} from "../../Website/User/UserService";
+import UserUtils from "../../Website/User/UserUtils";
 import ListItem from "../../Website/List/ListItem";
 import OrderUtils from "../../Website/Order/OrderUtils";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
@@ -19,11 +19,11 @@ const BackendUserList = (props) => {
     const fetchListData = () => {
 
         const funcs = {
-            user: getAllUser,
+            user: UserUtils.getAllUser,
             order: OrderUtils.getAllOrder,
         };
         const funcsPrepare = {
-            user: prepareDataUser,
+            user: UserUtils.prepareDataUser,
             order: OrderUtils.prepareDataOrder,
         };
 

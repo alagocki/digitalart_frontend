@@ -4,7 +4,7 @@ import {fetchToken} from "../Auth";
 import axios from "axios";
 import ModalImage from "react-modal-image";
 import ImageCover from "../Backend/ImageCover";
-import {isSuperUser} from "../User/UserService";
+import UserUtils from "../User/UserUtils";
 
 class ImageItem extends React.Component {
 
@@ -63,6 +63,7 @@ class ImageItem extends React.Component {
 
         axios.delete(url, axiosConfig)
             .then((response) => {
+                response = null;
                 this.reload();
             })
             .catch((error) => {
@@ -116,7 +117,7 @@ class ImageItem extends React.Component {
                                       title="Remove image from order"
                                       onClick={() => this.handleChangeCnt('minus')}>-
                             </button>}
-                        {(isSuperUser() && false === this.state.ordered) ?
+                        {(UserUtils.isSuperUser() && false === this.state.ordered) ?
                             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-1"
                                     onClick={() => this.deleteImage(this.state.id)}
                                     title="Delete image">X</button> : null}

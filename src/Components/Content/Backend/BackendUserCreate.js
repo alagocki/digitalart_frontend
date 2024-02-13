@@ -6,7 +6,7 @@ import InputEmail from "../../Website/Form/InputEmail";
 import InputPassword from "../../Website/Form/InputPassword";
 import Button from "../../Website/Form/Button";
 import {Navigate} from 'react-router-dom';
-import {getUser} from "../../Website/User/UserService";
+import UserUtils from "../../Website/User/UserUtils";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
@@ -127,7 +127,7 @@ class BackendUserCreate extends React.Component {
 
     componentDidMount() {
         this.setState({
-            user: getUser(),
+            user: UserUtils.getUser(),
             token: fetchToken(),
             boxinfo: '+'
         });
@@ -141,7 +141,7 @@ class BackendUserCreate extends React.Component {
 
         return (
             <div>
-                {this.state.user.is_superuser === false ? <Navigate to="/backend"/> : this.getBackendUserCreate()}
+                {UserUtils.isSuperUser() === false ? <Navigate to="/backend"/> : this.getBackendUserCreate()}
             </div>
         );
     }
