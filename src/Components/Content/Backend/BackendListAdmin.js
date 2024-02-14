@@ -6,8 +6,9 @@ import ListItem from "../../Website/List/ListItem";
 import OrderUtils from "../../Website/Order/OrderUtils";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
+import ListUtils from "../../Website/List/ListUtils";
 
-const BackendUserList = (props) => {
+const BackendListAdmin = (props) => {
 
     const [listData, setData] = useState([]);
     const [dataType] = useState(props.type);
@@ -43,28 +44,14 @@ const BackendUserList = (props) => {
             fetchList().then();
         });
 
+        const fetchListDataItems = () => {
+            return ListUtils.prepareListDataMultiple(listData, dataType);
+        };
+
         return (<div className="grid grid-cols-2 gap-2">
-
-            {listData.map((data) => {
-                let elementList = '';
-                // eslint-disable-next-line array-callback-return
-                Object.keys(data).map(() => {
-                    elementList = <ListItem
-                        id={data['id']}
-                        key={data['id']}
-                        headlineCardHeader={data['headlineCardHeader']}
-                        headline2={data['headline2']}
-                        headline1={data['headline1']}
-                        info1={data['info1']}
-                        info2={data['info2']}
-                        info3={data['info3']}
-                        dataType={dataType}
-                    />
-                });
-                return elementList;
-            })}
-
+            {fetchListDataItems()}
         </div>);
+
     };
 
     return (<div className='flex justify-center max-w-7xl flex-col mx-auto'>
@@ -81,4 +68,4 @@ const BackendUserList = (props) => {
 }
 
 
-export default BackendUserList;
+export default BackendListAdmin;

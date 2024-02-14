@@ -6,9 +6,10 @@ import ListItem from "../../Website/List/ListItem";
 import OrderUtils from "../../Website/Order/OrderUtils";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
+import ListUtils from "../../Website/List/ListUtils";
 
 
-const BackendUserListUser = (props) => {
+const BackendListUser = (props) => {
 
     const [listData, setData] = useState([]);
     const [dataType] = useState(props.type);
@@ -18,10 +19,9 @@ const BackendUserListUser = (props) => {
 
     const fetchListData = () => {
 
-        const userData = UserUtils.getUser();
         const funcs = {
             user: UserUtils.getUser,
-            order: OrderUtils.getOrderByUserId(userData.id),
+            order: OrderUtils.getOrderByUserId,
         };
         const funcsPrepare = {
             user: UserUtils.prepareDataSingleUser,
@@ -34,7 +34,8 @@ const BackendUserListUser = (props) => {
                 try {
                     if (loading) {
                         const response = await funcs[dataType]();
-                        setData(funcsPrepare[dataType](response));
+                        let resData = ('undefined' !== typeof response.data) ? response.data : response;
+                        setData(funcsPrepare[dataType](resData));
                         setLoading(false);
                     }
 
@@ -45,18 +46,26 @@ const BackendUserListUser = (props) => {
             fetchList().then();
         });
 
+        const fetchListDataItems = () => {
+            return ListUtils.prepareListDataMultiple(listData, dataType);
+        };
+
         return (<div className="grid grid-cols-2 gap-2">
-            <ListItem
-                id={listData['id']}
-                key={listData['id']}
-                headlineCardHeader={listData['headlineCardHeader']}
-                headline2={listData['headline2']}
-                headline1={listData['headline1']}
-                info1={listData['info1']}
-                info2={listData['info2']}
-                info3={listData['info3']}
-                dataType={dataType}
-            />
+
+            {("user" === dataType) ?
+                <ListItem
+                    id={listData['id']}
+                    key={listData['id']}
+                    headlineCardHeader={listData['headlineCardHeader']}
+                    headline2={listData['headline2']}
+                    headline1={listData['headline1']}
+                    info1={listData['info1']}
+                    info2={listData['info2']}
+                    info3={listData['info3']}
+                    dataType={dataType}
+                /> :
+                fetchListDataItems()
+            }
         </div>);
     };
 
@@ -74,4 +83,4 @@ const BackendUserListUser = (props) => {
 }
 
 
-export default BackendUserListUser;
+export default BackendListUser;
