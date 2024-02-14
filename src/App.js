@@ -39,11 +39,11 @@ const App = () => {
                             <BackendListSwitch type={'user'}/>
                         </RequireToken>
                     }/>
-                    {/*<Route path="/backend/order/list" element={*/}
-                    {/*    <RequireToken>*/}
-                    {/*        <BackendListSwitch type={'order'}/>*/}
-                    {/*    </RequireToken>*/}
-                    {/*}/>*/}
+                    <Route path="/backend/order/list" element={
+                        <RequireToken>
+                            <BackendListSwitch type={'order'}/>
+                        </RequireToken>
+                    }/>
                     <Route path="/backend/order/detail" element={
                         <RequireToken>
                             <BackendOrderDetail/>

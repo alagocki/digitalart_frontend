@@ -30,6 +30,7 @@ class UserUtils {
     }
 
     static getUser = () => {
+        // return this.getUserFromApi();
         return JSON.parse(localStorage.getItem('user')) || null
     }
 
@@ -73,9 +74,6 @@ class UserUtils {
         try {
             // use data destructuring to get data from the promise object
             const {data: response} = await axios.get(url, options);
-
-            console.log(response);
-
             return response; // <- promise
         } catch (error) {
             throw new Error(error);
@@ -103,7 +101,7 @@ class UserUtils {
 
     static isSuperUser = () => {
         const user = this.getUser();
-        return user.is_superuser === true;
+        return process.env.REACT_APP_USER_ID === user.id;
     }
 
     static prepareDataSingleUser = (res) => {

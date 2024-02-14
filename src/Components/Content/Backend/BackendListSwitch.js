@@ -2,12 +2,11 @@ import React, {useState} from "react";
 
 
 import UserUtils from "../../Website/User/UserUtils";
-
 import BackendListAdmin from "./BackendListAdmin";
 import BackendListUser from "./BackendListUser";
 
 
-const BackendUserListSwitch = (props) => {
+const BackendListSwitch = (props) => {
 
     const [dataType] = useState(props.type);
 
@@ -19,4 +18,4 @@ const BackendUserListSwitch = (props) => {
 }
 
 
-export default BackendUserListSwitch;
+export default BackendListSwitch;

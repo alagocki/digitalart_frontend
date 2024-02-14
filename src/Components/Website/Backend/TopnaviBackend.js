@@ -39,6 +39,10 @@ const TopnaviBackend = () => {
                         <a href="/" className="text-xl hover:text-cyan-500">Home</a>
                     </li>
                     <li>|</li>
+                    <li className={(getCurrentPath().includes('order')) ? "md:my-0 p-2 mr-1 text-blue-500" : "md:my-0 p-2 mr-1"}>
+                        <a href="/backend/order/list" className="text-xl hover:text-cyan-500">Order</a>
+                    </li>
+                    <li>|</li>
                     <li className="md:my-0 p-2 mr-1">
                         <a href="/backend/user/list" className="text-xl hover:text-cyan-500 duration-500">User</a>
                     </li>

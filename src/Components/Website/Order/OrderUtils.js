@@ -1,12 +1,13 @@
 import {url as api_url} from "../Constants";
 import {fetchToken} from "../Auth";
 import axios from "axios";
+import UserUtils from "../User/UserUtils";
 
 class OrderUtils {
 
     static errorHandler = (error) => {
         if ("ERR_BAD_REQUEST" === error.code) {
-            window.location.href = '/login';
+            // window.location.href = '/login';
         } else {
             console.log('Error: ', error);
         }
@@ -34,9 +35,6 @@ class OrderUtils {
 
         try {
             const {data: response} = await axios.get(url, options);
-
-            // console.log(response);
-
             return response;
         } catch (error) {
             this.errorHandler(error);
@@ -51,8 +49,9 @@ class OrderUtils {
         }
     }
 
-    static getOrderByUserId = (id) => {
+    static getOrderByUserId = () => {
         try {
+            let id = UserUtils.getUser().id;
             return this.getOrderFromApiByUserId(id);
         } catch (error) {
             this.errorHandler(error);
@@ -81,8 +80,7 @@ class OrderUtils {
 
     }
 
-    static getOrderFromApiByUserId = async (id) => {
-
+    static getOrderFromApiByUserId = async (userId) => {
         let token = fetchToken();
         let options = {
             method: 'GET',
@@ -93,7 +91,7 @@ class OrderUtils {
         };
 
         try {
-            const url = api_url + 'order/' + id;
+            const url = api_url + 'order/user/' + userId;
             const {data: response} = await axios.get(url, options);
             return response;
 
