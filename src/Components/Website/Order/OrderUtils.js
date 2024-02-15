@@ -7,7 +7,7 @@ class OrderUtils {
 
     static errorHandler = (error) => {
         if ("ERR_BAD_REQUEST" === error.code) {
-            // window.location.href = '/login';
+            window.location.href = '/login';
         } else {
             console.log('Error: ', error);
         }
@@ -137,7 +137,8 @@ class OrderUtils {
                     status: 'unbearbeitet',
                     ordered: false,
                     base64encoded: fileReader.result,
-                    blocked: false
+                    blocked: false,
+                    file_extension: image.type
                 }
             };
             fileReader.onerror = (error) => {
@@ -157,7 +158,8 @@ class OrderUtils {
                 status: image[0].status,
                 ordered: image[0].ordered,
                 base64encoded: image[0].base64encoded,
-                blocked: image[0].blocked
+                blocked: image[0].blocked,
+                file_extension: image[0].file_extension
             }
         }
         return imageData
@@ -178,7 +180,6 @@ class OrderUtils {
                 condition: ('insert' === type) ? state.valueConditions : '-',
                 images_cnt: img_cnt,
                 include_media: ('insert' === type) ? state.valueIncludeMedia : 0,
-                selected_images_by_customer: (state.selectedImagesCustomer) ? state.selectedImagesCustomer : 0,
                 images: imageData
             };
         } catch (error) {

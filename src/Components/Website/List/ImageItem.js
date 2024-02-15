@@ -18,6 +18,7 @@ class ImageItem extends React.Component {
             ordered: props.image.ordered,
             selectedImagesCustomer: props.selectedImagesCustomer,
             plus: true,
+            valueImageName: ''
         };
     }
 
@@ -39,12 +40,6 @@ class ImageItem extends React.Component {
                 plus: true
             })
         }
-    }
-
-    handleChangeImage = (image) => {
-        this.setState({
-            image: image
-        })
     }
 
     handleOpenLigthbox = (value) => (
@@ -85,8 +80,13 @@ class ImageItem extends React.Component {
             <div className={this.getCSSClassesImagedLocked()} key={this.state.id}>
                 <div className="h-80">
                     <div
-                        className="text-blue-700 text-xl mb-2 bg-amber-950 px-6 py-4 flex justify-between rounded-t-lg border border-amber-950">
-                        <div className="text-white text-xs">{this.state.image.name}</div>
+                        className="text-blue-700 text-xl mb-0 bg-amber-950 px-6 py-4 flex justify-between rounded-t-lg border border-amber-950">
+                        <div className="text-white text-xs">
+                            {this.state.image.name}
+                        </div>
+                        <div className="text-xs text-amber-700">
+                            {this.state.image.file_extension}
+                        </div>
                     </div>
                     <div className="flex justify-center relative">
                         {(this.state.ordered === true) ? <ImageCover/> : null}
