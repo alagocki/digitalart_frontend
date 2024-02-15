@@ -104,8 +104,6 @@ class BackendOrderDetail extends React.Component {
         return total;
     }
 
-
-
     handleSubmit = () => {
 
         try {
@@ -125,10 +123,6 @@ class BackendOrderDetail extends React.Component {
             } else {
                 imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
             }
-
-
-            console.log(imageData);
-
 
             const timer = setTimeout(() => {
 
@@ -296,12 +290,17 @@ class BackendOrderDetail extends React.Component {
     };
 
     componentDidMount() {
+
         OrderUtils.getOrderById(this.getOrderId()).then(r => {
-            this.setState({
-                orderData: r.order[0],
-                imageData: r.order[1],
-                boxinfo: 'Order ' + this.state.orderData.order_number
-            })
+            try {
+                this.setState({
+                    orderData: r.order[0],
+                    imageData: r.order[1],
+                    boxinfo: 'Order ' + this.state.orderData.order_number
+                })
+            } catch (error) {
+                console.log(error)
+            }
 
             this.setState({
                 selectedImagesCustomer: OrderUtils.getOrderedImages(this.state.imageData)
