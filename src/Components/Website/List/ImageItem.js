@@ -5,6 +5,7 @@ import axios from "axios";
 import ModalImage from "react-modal-image";
 import ImageCover from "../Backend/ImageCover";
 import UserUtils from "../User/UserUtils";
+import {Link} from "react-router-dom";
 
 class ImageItem extends React.Component {
 
@@ -16,7 +17,7 @@ class ImageItem extends React.Component {
             image: props.image,
             open: false,
             ordered: props.image.ordered,
-            selectedImagesCustomer: props.selectedImagesCustomer,
+            // selectedImagesCustomer: props.selectedImagesCustomer,
             plus: true,
         };
     }
@@ -79,6 +80,15 @@ class ImageItem extends React.Component {
         }
     }
 
+    createLink = () => {
+        const href = "/backend/image/detail/?image=" + this.state.image.id;
+        return (
+            <Link to={href}
+                  className="text-sm hover:text-cyan-500 bg-gray-200 p-1.5 rounded-t-lg rounded-r-lg rounded-b-lg rounded-l-lg w-20 text-center"
+            >Details</Link>
+        )
+    }
+
 
     render() {
         return (
@@ -87,6 +97,9 @@ class ImageItem extends React.Component {
                     <div
                         className="text-blue-700 text-xl mb-2 bg-amber-950 px-6 py-4 flex justify-between rounded-t-lg border border-amber-950">
                         <div className="text-white text-xs">{this.state.image.name}</div>
+                        <div className="">
+                            {(UserUtils.isSuperUser()) ? this.createLink() : null}
+                        </div>
                     </div>
                     <div className="flex justify-center relative">
                         {(this.state.ordered === true) ? <ImageCover/> : null}
@@ -106,21 +119,24 @@ class ImageItem extends React.Component {
                 <div className="px-6 pt-4 pb-2 flex align-bottom justify-between">
                     <span
                         className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                    <div className="text-white text-xs">
-                        {(false === this.state.ordered) ?
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                                    title="Add image to order"
-                                    onClick={() => this.handleChangeCnt('plus')}>+
-                            </button>
-                            : <button className="bg-red-500 hover:red-blue-700 text-white font-bold py-1 px-2 rounded"
-                                      title="Remove image from order"
-                                      onClick={() => this.handleChangeCnt('minus')}>-
-                            </button>}
-                        {(UserUtils.isSuperUser() && false === this.state.ordered) ?
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-1"
+                    {('' !== this.state.orderId) ?
+                        <div className="text-white text-xs">
+                            {(false === this.state.ordered) ?
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Add image to order"
+                                        onClick={() => this.handleChangeCnt('plus')}>+
+                                </button>
+                                :
+                                <button className="bg-red-500 hover:red-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Remove image from order"
+                                        onClick={() => this.handleChangeCnt('minus')}>-
+                                </button>}
+                            {(UserUtils.isSuperUser() && false === this.state.ordered) ?
+                                <button
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-1"
                                     onClick={() => this.deleteImage(this.state.id)}
                                     title="Delete image">X</button> : null}
-                    </div>
+                        </div> : ''}
                 </div>
             </div>
         );

@@ -10,6 +10,9 @@ import BackendUserAddress from "./Components/Content/Backend/BackendUserAddress"
 import BackendOrderCreate from "./Components/Content/Backend/BackendOrderCreate";
 import BackendOrderDetail from "./Components/Content/Backend/BackendOrderDetail";
 import BackendListSwitch from "./Components/Content/Backend/BackendListSwitch";
+import BackendListImages from "./Components/Content/Backend/BackendListImages";
+import BackendUploadImages from "./Components/Content/Backend/BackendUploadImages";
+import BackendImageDetail from "./Components/Content/Backend/BackendImageDetail";
 
 const App = () => {
     return (
@@ -37,6 +40,21 @@ const App = () => {
                     <Route path="/backend/user/list" element={
                         <RequireToken>
                             <BackendListSwitch type={'user'}/>
+                        </RequireToken>
+                    }/>
+                    <Route path="/backend/image/list" element={
+                        <RequireToken>
+                            <BackendListImages/>
+                        </RequireToken>
+                    }/>
+                    <Route path="/backend/image/upload" element={
+                        <RequireToken>
+                            <BackendUploadImages/>
+                        </RequireToken>
+                    }/>
+                    <Route path="/backend/image/detail" element={
+                        <RequireToken>
+                            <BackendImageDetail/>
                         </RequireToken>
                     }/>
                     <Route path="/backend/order/list" element={

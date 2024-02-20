@@ -1,5 +1,5 @@
 import React from 'react';
-import UploadPic from '../Images/header_backend.png';
+import UploadPic from '../ImagesFiles/header_backend.png';
 import TopnaviBackend from "./TopnaviBackend";
 import {isTokenValid} from "../Auth";
 

@@ -34,8 +34,10 @@ const BackendListUser = (props) => {
                 try {
                     if (loading) {
                         const response = await funcs[dataType]();
-                        let resData = ('undefined' !== typeof response.data) ? response.data : response;
-                        setData(funcsPrepare[dataType](resData));
+                        if (response) {
+                            let resData = ('undefined' !== typeof response.data) ? response.data : response;
+                            setData(funcsPrepare[dataType](resData));
+                        }
                         setLoading(false);
                     }
 

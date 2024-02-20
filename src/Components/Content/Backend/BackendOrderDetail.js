@@ -5,10 +5,8 @@ import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
-import ImageItem from "../../Website/List/ImageItem";
 import {Accordion, AccordionHeader, AccordionBody,} from "@material-tailwind/react";
-import UploadPic from "../../Website/Images/plus.png";
-import InputFile from "../../Website/Form/InputFile";
+import UploadPic from "../../Website/ImagesFiles/plus.png";
 import Button from "../../Website/Form/Button";
 import {Navigate} from "react-router-dom";
 import UserUtils from "../../Website/User/UserUtils";
@@ -20,14 +18,16 @@ class BackendOrderDetail extends React.Component {
         super(props);
         this.state = {
             orderData: [],
-            imageData: [],
+            // imageData: [],
             selectedFile: [],
             error: false,
             boxinfo: '',
             selectedImagesCustomer: 0,
             selectedId: 0,
             cntOrderedImages: 0,
+            allImages: []
         };
+
     }
 
     updateSelectedImagesCustomer = (type, id) => {
@@ -63,11 +63,11 @@ class BackendOrderDetail extends React.Component {
         return cnt;
     }
 
-    handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
-        this.setState(prevState => ({
-            selectedFile: [...prevState.selectedFile, inputFieldValue]
-        }))
-    }
+    // handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
+    //     this.setState(prevState => ({
+    //         selectedFile: [...prevState.selectedFile, inputFieldValue]
+    //     }))
+    // }
 
     euroPrice = new Intl.NumberFormat('de-DE', {
         style: 'currency',
@@ -104,13 +104,11 @@ class BackendOrderDetail extends React.Component {
         return total;
     }
 
-
-
     handleSubmit = () => {
 
         try {
 
-            let imageData = [];
+            // let imageData = [];
             const orderId = this.getOrderId();
             const url = api_url + 'order/update/' + orderId;
             const axiosConfig = {
@@ -118,33 +116,33 @@ class BackendOrderDetail extends React.Component {
                     'Authorization': 'Bearer ' + fetchToken()
                 }
             };
-
-            imageData = this.state.imageData;
-            if (this.state.selectedFile.length > 0) {
-                imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
-            } else {
-                imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
-            }
-
-
-            console.log(imageData);
+            //
+            // imageData = this.state.imageData;
+            // if (this.state.selectedFile.length > 0) {
+            //     imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
+            // } else {
+            //     imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
+            // }
+            //
+            //
+            // console.log(imageData);
 
 
             const timer = setTimeout(() => {
 
-                const orderDataUpdate = OrderUtils.orderDataForApi(this.state, 'update', imageData);
+                const orderDataUpdate = OrderUtils.orderDataForApi(this.state, 'update');
 
                 axios.post(url, orderDataUpdate, axiosConfig)
                     .then(
                         () => this.reload()
                     )
-                    .catch(imageError => {
-                        console.log(imageError)
-                        let infoMessage = imageError.message;
-                        if (imageError.response.status === 422) {
+                    .catch(error => {
+                        console.error(error)
+                        let infoMessage = error.message;
+                        if (error.response.status === 422) {
                             infoMessage = 'Incorrect Order (Status 422)';
                         }
-                        this.setState({boxinfo: infoMessage, error: true, code: imageError.response.status});
+                        this.setState({boxinfo: infoMessage, error: true, code: error.response.status});
                     });
             }, 1000);
             return () => clearTimeout(timer);
@@ -249,36 +247,37 @@ class BackendOrderDetail extends React.Component {
                                                     </div>
                                                 </AccordionHeader>
                                                 <AccordionBody>
-                                                    <InputFile
-                                                        id="selectedFile"
-                                                        label="Files"
-                                                        customer="true"
-                                                        onChange={this.handleFieldChangeFile}
-                                                        value={this.state.selectedFile}/>
+                                                    File assignment
+                                                    {/*<InputFile*/}
+                                                    {/*    id="selectedFile"*/}
+                                                    {/*    label="Files"*/}
+                                                    {/*    customer="true"*/}
+                                                    {/*    onChange={this.handleFieldChangeFile}*/}
+                                                    {/*    value={this.state.selectedFile}/>*/}
                                                 </AccordionBody>
                                             </Accordion>
                                         </div>
-                                        <div className="w-full grid md:grid-cols-3 md:gap-3 sm:grid-cols-1 sm:gap-1">
-                                            {
-                                                this.state.imageData.map((data, key) => {
-                                                    let elementList = '';
-                                                    // eslint-disable-next-line array-callback-return
-                                                    Object.keys(data).map(() => {
-                                                        elementList = <ImageItem
-                                                            id={data[0].id}
-                                                            key={key}
-                                                            image={data[0]}
-                                                            selectedImagesCustomer={this.state.selectedImagesCustomer}
-                                                            orderId={this.getOrderId()}
-                                                            ordered={data[0].ordered}
-                                                            onChangePlus={() => this.updateSelectedImagesCustomer('plus', data[0].id)}
-                                                            onChangeMinus={() => this.updateSelectedImagesCustomer('minus', data[0].id)}
-                                                        />
-                                                    });
-                                                    return elementList;
-                                                })
-                                            }
-                                        </div>
+                                        {/*<div className="w-full grid md:grid-cols-3 md:gap-3 sm:grid-cols-1 sm:gap-1">*/}
+                                        {/*    {*/}
+                                        {/*        this.state.imageData.map((data, key) => {*/}
+                                        {/*            let elementList = '';*/}
+                                        {/*            // eslint-disable-next-line array-callback-return*/}
+                                        {/*            Object.keys(data).map(() => {*/}
+                                        {/*                elementList = <ImageItem*/}
+                                        {/*                    id={data[0].id}*/}
+                                        {/*                    key={key}*/}
+                                        {/*                    image={data[0]}*/}
+                                        {/*                    selectedImagesCustomer={this.state.selectedImagesCustomer}*/}
+                                        {/*                    orderId={this.getOrderId()}*/}
+                                        {/*                    ordered={data[0].ordered}*/}
+                                        {/*                    onChangePlus={() => this.updateSelectedImagesCustomer('plus', data[0].id)}*/}
+                                        {/*                    onChangeMinus={() => this.updateSelectedImagesCustomer('minus', data[0].id)}*/}
+                                        {/*                />*/}
+                                        {/*            });*/}
+                                        {/*            return elementList;*/}
+                                        {/*        })*/}
+                                        {/*    }*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                                 <div className="px-6 pt-4 pb-2">
@@ -299,14 +298,15 @@ class BackendOrderDetail extends React.Component {
         OrderUtils.getOrderById(this.getOrderId()).then(r => {
             this.setState({
                 orderData: r.order[0],
-                imageData: r.order[1],
+                // imageData: r.order[1],
                 boxinfo: 'Order ' + this.state.orderData.order_number
             })
 
             this.setState({
-                selectedImagesCustomer: OrderUtils.getOrderedImages(this.state.imageData)
+                // selectedImagesCustomer: OrderUtils.getOrderedImages(this.state.imageData)
             })
         })
+
     }
 
     render() {

@@ -18,20 +18,19 @@ class InputCheckbox extends React.Component {
 
     render() {
         return (
-            <div className="md:flex md:items-center mb-7">
-                <div className="md:w-1/3">
+            <div className="md:flex justify-end mt-2">
+                <div className="md:w-full flex justify-end">
                     <label
-                        className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                        className="block text-gray-500 font-bold md:text-right"
                         htmlFor="inline-full-name">
                         {this.state.label}
-                    </label>
-                </div>
-                <div className="md:w-2/3">
+                        &nbsp;&nbsp;
                     <input
-                        className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                        className="shadow bg-purple-500 hover:bg-purple-400 focus:outline-none text-white font-bold rounded"
                         type="checkbox"
                         checked={this.state.checked}
                         onClick={this.handleChangeCheckbox}/>
+                    </label>
                 </div>
             </div>
         )

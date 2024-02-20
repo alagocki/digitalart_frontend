@@ -20,7 +20,7 @@ class ListItem extends React.Component {
     }
 
     createLink = () => {
-        const href = "/backend/" + this.state.dataType + "/detail/?order=" + this.state.id;
+        const href = "/backend/" + this.state.dataType + "/detail/?" + this.state.dataType + "=" + this.state.id;
         return (
             <Link to={href}
                   className="text-sm hover:text-cyan-500 bg-gray-200 p-1.5 rounded-t-lg rounded-r-lg rounded-b-lg rounded-l-lg w-20 text-center"

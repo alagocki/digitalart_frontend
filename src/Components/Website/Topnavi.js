@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoImage from './Images/Logo_4.png';
+import LogoImage from './ImagesFiles/Logo_4.png';
 
 const Topnavi = () => {
 

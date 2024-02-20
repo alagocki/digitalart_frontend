@@ -2,7 +2,7 @@ import {useNavigate} from "react-router";
 import {setToken} from "./Auth";
 import React, {useState} from "react";
 import axios from "axios";
-import Header_Pic from './Images/header_backend.png';
+import Header_Pic from './ImagesFiles/header_backend.png';
 import {url as api_url} from ".//Constants";
 import UserUtils from "./User/UserUtils";
 
