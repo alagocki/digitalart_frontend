@@ -1,5 +1,5 @@
 import React from "react";
-import UploadPic from "../Images/upload.png";
+import UploadPic from "../ImagesFiles/upload.png";
 
 class InputText extends React.Component {
 
