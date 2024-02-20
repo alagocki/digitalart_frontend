@@ -124,48 +124,9 @@ class OrderUtils {
         return preparedlistData;
     }
 
-    static prepareImageDataNew = (images) => {
-        let imageData = [];
-        for (let i = 0; i < images.length; i++) {
-            const image = images[i];
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(image);
-            fileReader.onload = () => {
-                imageData[i] = {
-                    name: image.name,
-                    description: 'Bild ' + i,
-                    status: 'unbearbeitet',
-                    ordered: false,
-                    base64encoded: fileReader.result,
-                    blocked: false
-                }
-            };
-            fileReader.onerror = (error) => {
-                console.log('Error: ', error);
-            };
-        }
-        return imageData
-    }
 
-    static prepareImageDataStock = (images) => {
-        let imageData = [];
-        for (let i = 0; i < images.length; i++) {
-            const image = images[i];
-            imageData[i] = {
-                name: image[0].name,
-                description: image[0].description,
-                status: image[0].status,
-                ordered: image[0].ordered,
-                base64encoded: image[0].base64encoded,
-                blocked: image[0].blocked
-            }
-        }
-        return imageData
-    }
-
-    static orderDataForApi = (state, type, imageData) => {
+    static orderDataForApi = (state, type) => {
         try {
-            const img_cnt = imageData.length
             return {
                 topic: ('insert' === type) ? state.valueTopic : '-',
                 info: ('insert' === type) ? state.valueInfo : '-',
@@ -176,30 +137,14 @@ class OrderUtils {
                 basic_price: ('insert' === type) ? Number(state.valuePrice) : 0,
                 additional_pic_price: ('insert' === type) ? Number(state.valueAddPicPrice) : 0,
                 condition: ('insert' === type) ? state.valueConditions : '-',
-                images_cnt: img_cnt,
+                images_cnt: 0,
                 include_media: ('insert' === type) ? state.valueIncludeMedia : 0,
                 selected_images_by_customer: (state.selectedImagesCustomer) ? state.selectedImagesCustomer : 0,
-                images: imageData
             };
         } catch (error) {
             this.errorHandler(error);
             return null;
         }
-    }
-
-    static getOrderedImages = (imageData) => {
-        let orderedImages = 0;
-        // eslint-disable-next-line array-callback-return
-        imageData.map((data) => {
-            // eslint-disable-next-line array-callback-return
-            Object.keys(data).map(() => {
-                if (data[0].ordered === true) {
-                    orderedImages += 1;
-                }
-            });
-        })
-
-        return orderedImages;
     }
 
 }

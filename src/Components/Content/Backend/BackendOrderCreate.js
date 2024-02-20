@@ -9,7 +9,6 @@ import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
 import InputText from "../../Website/Form/InputText";
 import InputDropdown from "../../Website/Form/InputDropdown";
-import InputFile from "../../Website/Form/InputFile";
 import InputDatePicker from "../../Website/Form/InputDatePicker";
 import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import InputMoney from "../../Website/Form/InputMoney";
@@ -45,17 +44,16 @@ class BackendOrderCreate extends React.Component {
         this.setState({[inputFieldId]: inputFieldValue});
     }
 
-    handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
-        this.setState(prevState => ({
-            selectedFile: [...prevState.selectedFile, inputFieldValue]
-        }))
-    }
+    // handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
+    //     this.setState(prevState => ({
+    //         selectedFile: [...prevState.selectedFile, inputFieldValue]
+    //     }))
+    // }
 
     handleSubmit = () => {
 
         try {
 
-            let imageData = [];
             let url = api_url + 'order/create';
             let axiosConfig = {
                 headers: {
@@ -63,11 +61,11 @@ class BackendOrderCreate extends React.Component {
                 }
             };
 
-            imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
+            // imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
 
             const timer = setTimeout(() => {
 
-                const orderData = OrderUtils.orderDataForApi(this.state, 'insert', imageData);
+                const orderData = OrderUtils.orderDataForApi(this.state, 'insert');
 
                 if (null !== orderData) {
                     axios.post(url, orderData, axiosConfig)
@@ -200,14 +198,14 @@ class BackendOrderCreate extends React.Component {
                                         label="Conditions"
                                         onChange={this.handleFieldChange}
                                         value={this.state.valueConditions}/>
+                                </div>
+                                <div className="px-6 py-4 w-1/2">
                                     <InputDropdown
                                         id="valueIncludeMedia"
                                         label="Quantity incl. media"
                                         items={includeMedia}
                                         onChange={this.handleFieldChange}
                                         value={this.state.valueIncludeMedia}/>
-                                </div>
-                                <div className="px-6 py-4 w-1/2">
                                     <InputDropdown
                                         id="valueCustomer"
                                         label="Customer"
@@ -225,12 +223,6 @@ class BackendOrderCreate extends React.Component {
                                         label="Shooting Date"
                                         value={this.state.valueShootingDate}
                                         onChange={this.handleFieldChange}/>
-                                    <InputFile
-                                        id="selectedFile"
-                                        label="Files"
-                                        customer="true"
-                                        onChange={this.handleFieldChangeFile}
-                                        value={this.state.selectedFile}/>
                                 </div>
                             </div>
                             <div className="px-6 py-4 w-1/2">
