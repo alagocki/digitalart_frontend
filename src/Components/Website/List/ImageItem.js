@@ -19,6 +19,7 @@ class ImageItem extends React.Component {
             ordered: props.image.ordered,
             // selectedImagesCustomer: props.selectedImagesCustomer,
             plus: true,
+            valueImageName: ''
         };
     }
 
@@ -40,12 +41,6 @@ class ImageItem extends React.Component {
                 plus: true
             })
         }
-    }
-
-    handleChangeImage = (image) => {
-        this.setState({
-            image: image
-        })
     }
 
     handleOpenLigthbox = (value) => (

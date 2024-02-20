@@ -7,7 +7,7 @@ class OrderUtils {
 
     static errorHandler = (error) => {
         if ("ERR_BAD_REQUEST" === error.code) {
-            // window.location.href = '/login';
+            window.location.href = '/login';
         } else {
             console.log('Error: ', error);
         }
@@ -124,6 +124,29 @@ class OrderUtils {
         return preparedlistData;
     }
 
+    static prepareImageDataNew = (images) => {
+        let imageData = [];
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(image);
+            fileReader.onload = () => {
+                imageData[i] = {
+                    name: image.name,
+                    description: 'Bild ' + i,
+                    status: 'unbearbeitet',
+                    ordered: false,
+                    base64encoded: fileReader.result,
+                    blocked: false,
+                    file_extension: image.type
+                }
+            };
+            fileReader.onerror = (error) => {
+                console.log('Error: ', error);
+            };
+        }
+        return imageData
+    }
 
     static orderDataForApi = (state, type) => {
         try {
@@ -140,6 +163,7 @@ class OrderUtils {
                 images_cnt: 0,
                 include_media: ('insert' === type) ? state.valueIncludeMedia : 0,
                 selected_images_by_customer: (state.selectedImagesCustomer) ? state.selectedImagesCustomer : 0,
+
             };
         } catch (error) {
             this.errorHandler(error);

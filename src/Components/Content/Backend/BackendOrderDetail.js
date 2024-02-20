@@ -116,16 +116,13 @@ class BackendOrderDetail extends React.Component {
                     'Authorization': 'Bearer ' + fetchToken()
                 }
             };
-            //
-            // imageData = this.state.imageData;
-            // if (this.state.selectedFile.length > 0) {
-            //     imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
-            // } else {
-            //     imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
-            // }
-            //
-            //
-            // console.log(imageData);
+
+            imageData = this.state.imageData;
+            if (this.state.selectedFile.length > 0) {
+                imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
+            } else {
+                imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
+            }
 
 
             const timer = setTimeout(() => {
@@ -295,12 +292,18 @@ class BackendOrderDetail extends React.Component {
     };
 
     componentDidMount() {
+
         OrderUtils.getOrderById(this.getOrderId()).then(r => {
-            this.setState({
-                orderData: r.order[0],
-                // imageData: r.order[1],
-                boxinfo: 'Order ' + this.state.orderData.order_number
-            })
+
+            try {
+                this.setState({
+                    orderData: r.order[0],
+                    imageData: r.order[1],
+                    boxinfo: 'Order ' + this.state.orderData.order_number
+                })
+            } catch (error) {
+                console.log(error)
+            }
 
             this.setState({
                 // selectedImagesCustomer: OrderUtils.getOrderedImages(this.state.imageData)
