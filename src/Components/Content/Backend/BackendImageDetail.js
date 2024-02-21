@@ -3,7 +3,6 @@ import React from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import {Navigate} from "react-router-dom";
 import UserUtils from "../../Website/User/UserUtils";
-import SubnaviBackendImages from "../../Website/Backend/SubnaviBackendImages";
 
 class BackendImageDetail extends React.Component {
 
@@ -22,9 +21,8 @@ class BackendImageDetail extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviBackendImages sub={'detail'}/>}
 
-                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
                         Order Detail
                     </h1>
                     <div className="flex justify-center">

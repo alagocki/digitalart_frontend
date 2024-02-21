@@ -10,7 +10,6 @@ import UserUtils from "../../Website/User/UserUtils";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
-import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 
 
 class BackendUserCreate extends React.Component {
@@ -82,9 +81,8 @@ class BackendUserCreate extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviBackendStandard type={'user'}/>}
 
-                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
                         Create new user
                     </h1>
                     <div className="flex justify-center">

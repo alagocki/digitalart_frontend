@@ -1,12 +1,9 @@
 import React from "react";
 
 import BackendHeader from "../../Website/Backend/BackendHeader";
-import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {url as api_url} from "../../Website/Constants";
 import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
-import {Accordion, AccordionHeader, AccordionBody,} from "@material-tailwind/react";
-import UploadPic from "../../Website/ImagesFiles/plus.png";
 import Button from "../../Website/Form/Button";
 import {Navigate} from "react-router-dom";
 import UserUtils from "../../Website/User/UserUtils";
@@ -117,14 +114,6 @@ class BackendOrderDetail extends React.Component {
                 }
             };
 
-            imageData = this.state.imageData;
-            if (this.state.selectedFile.length > 0) {
-                imageData = OrderUtils.prepareImageDataNew(this.state.selectedFile);
-            } else {
-                imageData = OrderUtils.prepareImageDataStock(this.state.imageData);
-            }
-
-
             const timer = setTimeout(() => {
 
                 const orderDataUpdate = OrderUtils.orderDataForApi(this.state, 'update');
@@ -159,9 +148,8 @@ class BackendOrderDetail extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviBackendStandard type={'order'} sub={'detail'}/>}
 
-                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
                         Order Detail
                     </h1>
                     <div className="flex justify-center">
@@ -234,47 +222,6 @@ class BackendOrderDetail extends React.Component {
                                                 </table>
                                             </div>
                                         </div>
-                                        <div className="px-6">
-                                            <Accordion open={this.state.open === 1}>
-                                                <AccordionHeader onClick={() => this.handleOpen(1)} className="flex">
-                                                    <div className="w-full flex justify-end text-xs/[10px]">
-                                                        <img className="w-10"
-                                                             src={UploadPic}
-                                                             alt="" loading=""/>
-                                                    </div>
-                                                </AccordionHeader>
-                                                <AccordionBody>
-                                                    File assignment
-                                                    {/*<InputFile*/}
-                                                    {/*    id="selectedFile"*/}
-                                                    {/*    label="Files"*/}
-                                                    {/*    customer="true"*/}
-                                                    {/*    onChange={this.handleFieldChangeFile}*/}
-                                                    {/*    value={this.state.selectedFile}/>*/}
-                                                </AccordionBody>
-                                            </Accordion>
-                                        </div>
-                                        {/*<div className="w-full grid md:grid-cols-3 md:gap-3 sm:grid-cols-1 sm:gap-1">*/}
-                                        {/*    {*/}
-                                        {/*        this.state.imageData.map((data, key) => {*/}
-                                        {/*            let elementList = '';*/}
-                                        {/*            // eslint-disable-next-line array-callback-return*/}
-                                        {/*            Object.keys(data).map(() => {*/}
-                                        {/*                elementList = <ImageItem*/}
-                                        {/*                    id={data[0].id}*/}
-                                        {/*                    key={key}*/}
-                                        {/*                    image={data[0]}*/}
-                                        {/*                    selectedImagesCustomer={this.state.selectedImagesCustomer}*/}
-                                        {/*                    orderId={this.getOrderId()}*/}
-                                        {/*                    ordered={data[0].ordered}*/}
-                                        {/*                    onChangePlus={() => this.updateSelectedImagesCustomer('plus', data[0].id)}*/}
-                                        {/*                    onChangeMinus={() => this.updateSelectedImagesCustomer('minus', data[0].id)}*/}
-                                        {/*                />*/}
-                                        {/*            });*/}
-                                        {/*            return elementList;*/}
-                                        {/*        })*/}
-                                        {/*    }*/}
-                                        {/*</div>*/}
                                     </div>
                                 </div>
                                 <div className="px-6 pt-4 pb-2">

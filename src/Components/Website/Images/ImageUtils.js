@@ -35,37 +35,6 @@ class ImageUtils {
         return imageData
     }
 
-    static prepareImageDataStock = (images) => {
-        let imageData = [];
-        for (let i = 0; i < images.length; i++) {
-            const image = images[i];
-            imageData[i] = {
-                name: image[0].name,
-                description: image[0].description,
-                status: image[0].status,
-                ordered: image[0].ordered,
-                base64encoded: image[0].base64encoded,
-                blocked: image[0].blocked
-            }
-        }
-        return imageData
-    }
-
-    static getOrderedImages = (imageData) => {
-        let orderedImages = 0;
-        // eslint-disable-next-line array-callback-return
-        imageData.map((data) => {
-            // eslint-disable-next-line array-callback-return
-            Object.keys(data).map(() => {
-                if (data[0].ordered === true) {
-                    orderedImages += 1;
-                }
-            });
-        })
-
-        return orderedImages;
-    }
-
     static createImageListBlock = (imageData) => {
         return <div className="w-full grid md:grid-cols-3 md:gap-3 sm:grid-cols-1 sm:gap-1">
             {

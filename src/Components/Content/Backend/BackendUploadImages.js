@@ -1,7 +1,6 @@
 import React from "react";
 import {url as api_url} from "../../Website/Constants";
 import BackendHeader from "../../Website/Backend/BackendHeader";
-import SubnaviBackendImages from "../../Website/Backend/SubnaviBackendImages";
 import Button from "../../Website/Form/Button";
 import InputFile from "../../Website/Form/InputFile";
 import UserUtils from "../../Website/User/UserUtils";
@@ -93,9 +92,8 @@ class BackendUploadImages extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    <SubnaviBackendImages/>
 
-                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
                         Image Upload - Admin
                     </h1>
                     <div className="flex justify-center">

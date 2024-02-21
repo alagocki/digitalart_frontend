@@ -3,10 +3,8 @@ import React, {useEffect, useState} from "react";
 import BackendHeader from "../../Website/Backend/BackendHeader";
 import UserUtils from "../../Website/User/UserUtils";
 import OrderUtils from "../../Website/Order/OrderUtils";
-import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
 import ListUtils from "../../Website/List/ListUtils";
-
 const BackendListAdmin = (props) => {
 
     const [listData, setData] = useState([]);
@@ -55,12 +53,19 @@ const BackendListAdmin = (props) => {
 
     return (<div className='flex justify-center max-w-7xl flex-col mx-auto'>
             {<BackendHeader/>}
-            <SubnaviBackendStandard type={dataType}/>
 
-            <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
-                {dataType.charAt(0).toUpperCase() + dataType.slice(1)} List - Admin
-            </h1>
-            {(listData) ? fetchListData() : <Navigate to="/"/>}
+            <div className="flex justify-between">
+                <div className="">
+
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
+                        {dataType.charAt(0).toUpperCase() + dataType.slice(1)} List - Admin
+                    </h1>
+                    {(listData) ? fetchListData() : <Navigate to="/"/>}
+                </div>
+                <div>
+                    &nbsp;
+                </div>
+            </div>
         </div>
     );
 
