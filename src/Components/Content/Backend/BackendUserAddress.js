@@ -9,7 +9,6 @@ import {fetchToken} from "../../Website/Auth";
 import axios from "axios";
 import InputText from "../../Website/Form/InputText";
 import InputNumber from "../../Website/Form/InputNumber";
-import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 
 function withParams(Component) {
     return (props) => <Component {...props} params={useParams()}/>;
@@ -110,9 +109,8 @@ class BackendUserAdress extends React.Component {
             <main className="pt-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
-                    {<SubnaviBackendStandard type={'user'}/>}
 
-                    <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
+                    <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
                         Add User Adress for {this.state.createdUserEmail}
                     </h1>
                     <div className="flex justify-center">

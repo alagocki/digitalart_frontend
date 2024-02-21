@@ -1,7 +1,7 @@
 import React from 'react';
 import UploadPic from '../ImagesFiles/header_backend.png';
-import TopnaviBackend from "./TopnaviBackend";
 import {isTokenValid} from "../Auth";
+import TopnaviBackendAdmin from "./TopnaviBackendAdmin";
 
 const BackendHeader = () => {
 
@@ -17,7 +17,7 @@ const BackendHeader = () => {
                 </picture>
             </h2>
             <div className="text-sm text-gray-700 text-right border-t-gray-180 border-b-gray-180 border-b-2">
-                {<TopnaviBackend />}
+                {<TopnaviBackendAdmin/>}
             </div>
         </section>
     );

@@ -4,7 +4,6 @@ import BackendHeader from "../../Website/Backend/BackendHeader";
 import UserUtils from "../../Website/User/UserUtils";
 import ListItem from "../../Website/List/ListItem";
 import OrderUtils from "../../Website/Order/OrderUtils";
-import SubnaviBackendStandard from "../../Website/Backend/SubnaviBackendStandard";
 import {Navigate} from "react-router-dom";
 import ListUtils from "../../Website/List/ListUtils";
 
@@ -73,7 +72,6 @@ const BackendListUser = (props) => {
 
     return (<div className='flex justify-center max-w-7xl flex-col mx-auto'>
             {<BackendHeader/>}
-            <SubnaviBackendStandard type={dataType}/>
 
             <h1 className="mb-4 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3xl ">
                 {dataType.charAt(0).toUpperCase() + dataType.slice(1)} List

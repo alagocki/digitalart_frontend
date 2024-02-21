@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 
 import BackendHeader from "../../Website/Backend/BackendHeader";
-import SubnaviBackendImages from "../../Website/Backend/SubnaviBackendImages";
 import {url as api_url} from "../../Website/Constants";
 import axios from "axios";
 import ImageUtils from "../../Website/Images/ImageUtils";
@@ -35,7 +34,6 @@ const BackendListImages = () => {
         <main className="pt-20">
             <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                 {<BackendHeader/>}
-                <SubnaviBackendImages/>
 
                 <div className="flex justify-between">
                     <h1 className="mb-10 mt-2 text-lg leading-none tracking-tight text-gray-400 md:text-2xl lg:text-3x">
