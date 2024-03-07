@@ -1,5 +1,8 @@
 import ImageItem from "../List/ImageItem";
 import React from "react";
+import {url as api_url} from "../Constants";
+import {fetchToken} from "../Auth";
+import axios from "axios";
 
 class ImageUtils {
 
@@ -8,6 +11,62 @@ class ImageUtils {
             // window.location.href = '/login';
         } else {
             console.log('Error: ', error);
+        }
+    }
+
+    static getAllImages = () => {
+        try {
+            return this.getAllImagesFromApi();
+        } catch (error) {
+            this.errorHandler(error);
+        }
+    }
+
+    static getOrderImages = (orderId) => {
+        try {
+            return this.getOrderImagesFromApi(orderId);
+        } catch (error) {
+            this.errorHandler(error);
+        }
+    }
+
+    static getOrderImagesFromApi = async (orderId) => {
+
+        let url = api_url + 'order/images/' + orderId;
+        let token = fetchToken();
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        };
+
+        try {
+            const {data: response} = await axios.get(url, options);
+            return response;
+        } catch (error) {
+            this.errorHandler(error);
+        }
+    }
+
+    static getAllImagesFromApi = async () => {
+
+        let url = api_url + 'images/all';
+        let token = fetchToken();
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        };
+
+        try {
+            const {data: response} = await axios.get(url, options);
+            return response;
+        } catch (error) {
+            this.errorHandler(error);
         }
     }
 
@@ -57,6 +116,29 @@ class ImageUtils {
                 })
             }
         </div>
+    }
+
+    static addImageToOrder = async (orderId, imageId) => {
+        let url = api_url + 'image/assign/order';
+        let token = fetchToken();
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        };
+
+        const imageOrderData = {
+            order_id: orderId,
+            image_id: imageId
+        }
+
+        try {
+            const {data: response} = await axios.post(url, imageOrderData, options);
+        } catch (error) {
+            this.errorHandler(error);
+        }
     }
 
 }
