@@ -27,38 +27,38 @@ class BackendOrderDetail extends React.Component {
 
     }
 
-    updateSelectedImagesCustomer = (type, id) => {
-        let cnt;
-        let setOrdered = false;
-        if (type === 'plus') {
-            cnt = this.state.selectedImagesCustomer + 1;
-            this.setState(
-                {
-                    selectedImagesCustomer: cnt
-                }
-            );
-            setOrdered = true;
-        } else {
-            cnt = this.state.selectedImagesCustomer - 1;
-            this.setState(
-                {
-                    selectedImagesCustomer: cnt
-                }
-            );
-        }
-
-        // eslint-disable-next-line array-callback-return
-        this.state.imageData.map((data) => {
-            Object.keys(data).map(() => {
-                if (data[0].id === id) {
-                    data[0].ordered = setOrdered;
-                }
-                return data;
-            });
-        });
-
-        return cnt;
-    }
+    // updateSelectedImagesCustomer = (type, id) => {
+    //     let cnt;
+    //     let setOrdered = false;
+    //     if (type === 'plus') {
+    //         cnt = this.state.selectedImagesCustomer + 1;
+    //         this.setState(
+    //             {
+    //                 selectedImagesCustomer: cnt
+    //             }
+    //         );
+    //         setOrdered = true;
+    //     } else {
+    //         cnt = this.state.selectedImagesCustomer - 1;
+    //         this.setState(
+    //             {
+    //                 selectedImagesCustomer: cnt
+    //             }
+    //         );
+    //     }
+    //
+    //     // eslint-disable-next-line array-callback-return
+    //     this.state.imageData.map((data) => {
+    //         Object.keys(data).map(() => {
+    //             if (data[0].id === id) {
+    //                 data[0].ordered = setOrdered;
+    //             }
+    //             return data;
+    //         });
+    //     });
+    //
+    //     return cnt;
+    // }
 
     // handleFieldChangeFile = (inputFieldId, inputFieldValue) => {
     //     this.setState(prevState => ({

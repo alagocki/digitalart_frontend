@@ -13,6 +13,7 @@ import BackendListSwitch from "./Components/Content/Backend/BackendListSwitch";
 import BackendListImages from "./Components/Content/Backend/BackendListImages";
 import BackendUploadImages from "./Components/Content/Backend/BackendUploadImages";
 import BackendImageDetail from "./Components/Content/Backend/BackendImageDetail";
+import BackendOrderAddImages from "./Components/Content/Backend/BackendOrderAddImages";
 
 const App = () => {
     return (
@@ -70,6 +71,11 @@ const App = () => {
                     <Route path="/backend/order/create" element={
                         <RequireToken>
                             <BackendOrderCreate/>
+                        </RequireToken>
+                    }/>
+                    <Route path="/backend/order/add-images" element={
+                        <RequireToken>
+                            <BackendOrderAddImages/>
                         </RequireToken>
                     }/>
                     <Route path="/login" element={<Login/>}/>

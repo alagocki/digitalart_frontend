@@ -63,7 +63,6 @@ const TopnaviBackendAdmin = () => {
                                         <a href="/backend/image/upload"
                                            className="blockpy-2 hover:text-blue-100 dark:hover:text-blue-600">Upload</a>
                                     </li>
-
                                 </ul>
                             </div>
                         </li>
@@ -89,7 +88,11 @@ const TopnaviBackendAdmin = () => {
                                         <a href="/backend/order/create"
                                            className="blockpy-2 hover:text-blue-100 dark:hover:text-blue-600">Create</a>
                                     </li>
-
+                                    <li className="py-1">
+                                        <a href="/backend/order/add-images"
+                                           className="blockpy-2 hover:text-blue-100 dark:hover:text-blue-600">Add
+                                            Images</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -115,14 +118,12 @@ const TopnaviBackendAdmin = () => {
                                         <a href="/backend/user/create"
                                            className="blockpy-2 hover:text-blue-100 dark:hover:text-blue-600">Create</a>
                                     </li>
-
                                 </ul>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-
         );
     }
 
