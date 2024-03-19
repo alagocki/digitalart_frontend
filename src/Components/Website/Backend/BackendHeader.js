@@ -11,7 +11,7 @@ const BackendHeader = () => {
         <section>
             <h2 className="font-semibold tracking-tight text-center text-gray-700">
                 <picture>
-                    <img className="inset-0 object-cover object-center"
+                    <img className="w-auto inset-0 object-cover object-center"
                          src={UploadPic}
                          alt="" loading=""/>
                 </picture>

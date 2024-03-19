@@ -145,7 +145,7 @@ class BackendOrderDetail extends React.Component {
     fetchOrderData = () => {
 
         return (
-            <main className="pt-20">
+            <main className="p-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
 

@@ -7,6 +7,7 @@ class Homepage extends React.Component {
         return (
             <div className="flex flex-col min-h-screen">
                 {<Header />}
+                {/*{<Mobilenavi />}*/}
                 {/*<div className="border-2 border-amber-950 flex items-center justify-center">*/}
                 {/*    <div className="mt-auto w-1/2 border-2 border-amber-200 flex justify-end">Navigation</div>*/}
                 {/*</div>*/}
