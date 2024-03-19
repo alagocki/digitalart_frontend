@@ -37,6 +37,7 @@ class BackendOrderAddImages extends React.Component {
     handleOpen = (value) => (
         this.setState({
             orderId: this.state.orderId === value ? null : value
+            // eslint-disable-next-line no-sequences
         }),
             this.state.orderId === value ? null : this.getOrderedImages(value)
     );
@@ -80,7 +81,7 @@ class BackendOrderAddImages extends React.Component {
 
     showOrderAndImageData = () => {
         return (
-            <main className="pt-20">
+            <main className="p-20">
                 <div className='flex justify-center max-w-7xl flex-col mx-auto'>
                     {<BackendHeader/>}
 

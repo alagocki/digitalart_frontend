@@ -11,7 +11,7 @@ class BackendUser extends React.Component {
 
     getBackendUser = () => {
     return (
-        <main className="pt-20">
+        <main className="p-20">
             <div className='flex justify-center max-w-7xl flex-col mx-auto w-full'>
                 {<BackendHeader/>}
                 <h1 className="mb-4 mt-2 text-lg font-extrabold leading-none tracking-tight text-gray-300 md:text-2xl lg:text-3xl">User</h1>

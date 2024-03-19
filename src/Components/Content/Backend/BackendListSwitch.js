@@ -11,7 +11,7 @@ const BackendListSwitch = (props) => {
     const [dataType] = useState(props.type);
 
     return (
-        <main className="pt-20">
+        <main className="p-20">
             {(UserUtils.isSuperUser()) ? <BackendListAdmin type={dataType}/> : <BackendListUser type={dataType}/>}
         </main>
     );
